@@ -1,13 +1,17 @@
 package org.fundaciobit.plugins.utils.cxf;
 
 import java.io.StringReader;
+import java.nio.charset.Charset;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.utils.AbstractPluginProperties;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
  * 
@@ -15,15 +19,20 @@ import org.xml.sax.InputSource;
  *
  */
 public class CXFUtils {
+  
+  protected static Logger log = Logger.getLogger(CXFUtils.class);
+  
+  public static final Charset UTF_8 = Charset.forName("UTF-8");
 
   public static boolean isXMLFormat(byte[] data) {
 
-    if (!isBinaryFile(data)) {
+    if (isBinaryFile(data)) {
+      //log.info("\n\n XYZ ZZZ ES BINARY FILE \n\n");
+    } else {
 
-      boolean isXML = isXMLLike(new String(data));
+      boolean isXML = isXMLLike(new String(data, UTF_8));
 
       // System.out.println("isXML = " + isXML);
-
       if (isXML) {
         return true;
       }
@@ -65,8 +74,7 @@ public class CXFUtils {
     DocumentBuilder db = null;
     try {
       db = dbf.newDocumentBuilder();
-      InputSource is = new InputSource();
-      is.setCharacterStream(new StringReader(inXMLStr));
+      InputSource is = new InputSource(new StringReader(inXMLStr.replace('ñ', 'n')));
 
       Document doc = db.parse(is);
 
@@ -74,7 +82,25 @@ public class CXFUtils {
       
       return true;
     } catch (Throwable e1) {
-      // handle ParserConfigurationException   
+      // handle ParserConfigurationException 
+      e1.printStackTrace();
+
+      try {
+
+          XMLReader reader = XMLReaderFactory.createXMLReader();
+          InputSource is = new InputSource(new StringReader(inXMLStr.replace('ñ', 'n')));
+          reader.parse(is);
+
+          return true;
+
+      } catch (Exception e) {
+
+        e.printStackTrace();
+
+      } 
+      
+      
+      
       return false;
     }
 
