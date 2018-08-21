@@ -1,4 +1,4 @@
-package org.fundaciobit.plugins.utils.cxf;
+package org.fundaciobit.pluginsib.utils.cxf;
 
 import java.io.StringReader;
 import java.nio.charset.Charset;
@@ -7,7 +7,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.log4j.Logger;
-import org.fundaciobit.plugins.utils.AbstractPluginProperties;
+import org.fundaciobit.pluginsib.core.utils.AbstractPluginProperties;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;

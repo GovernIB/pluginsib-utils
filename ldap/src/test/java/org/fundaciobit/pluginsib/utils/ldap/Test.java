@@ -1,9 +1,13 @@
-package org.fundaciobit.plugins.utils.ldap;
+package org.fundaciobit.pluginsib.utils.ldap;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
 import java.util.Properties;
+
+import org.fundaciobit.pluginsib.utils.ldap.LDAPConstants;
+import org.fundaciobit.pluginsib.utils.ldap.LDAPUser;
+import org.fundaciobit.pluginsib.utils.ldap.LDAPUserManager;
 
 /**
  * @author anadal

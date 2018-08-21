@@ -1,9 +1,9 @@
-package org.fundaciobit.plugins.utils.cxf.test;
+package org.fundaciobit.pluginsib.utils.cxf.test;
 
 import java.io.InputStream;
 
-import org.fundaciobit.plugins.utils.FileUtils;
-import org.fundaciobit.plugins.utils.cxf.CXFUtils;
+import org.fundaciobit.pluginsib.core.utils.FileUtils;
+import org.fundaciobit.pluginsib.utils.cxf.CXFUtils;
 
 /**
  * 

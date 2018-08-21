@@ -1,4 +1,4 @@
-package org.fundaciobit.plugins.utils.cxf;
+package org.fundaciobit.pluginsib.utils.cxf;
 
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.frontend.ClientProxy;

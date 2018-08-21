@@ -1,4 +1,4 @@
-package org.fundaciobit.plugins.utils.ldap;
+package org.fundaciobit.pluginsib.utils.ldap;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;

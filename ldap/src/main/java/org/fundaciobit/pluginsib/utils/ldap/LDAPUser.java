@@ -1,4 +1,4 @@
-package org.fundaciobit.plugins.utils.ldap;
+package org.fundaciobit.pluginsib.utils.ldap;
 
 /**
  * Information about a LDAP user.

@@ -1,4 +1,4 @@
-package org.fundaciobit.plugins.utils.cxf;
+package org.fundaciobit.pluginsib.utils.cxf;
 
 import java.io.IOException;
 import java.util.HashMap;
