@@ -454,8 +454,10 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginProperties {
       ServletFileUpload upload = new ServletFileUpload(factory);
 
       // Parse the request to get file items.
-      List<FileItem> fileItems = upload.parseRequest(request);
+      @SuppressWarnings("unchecked")
+	List<FileItem> fileItems = upload.parseRequest(request);
 
+      
       Map<String, FileItem> mapFile = new HashMap<String, FileItem>();
 
       // Process the uploaded file items

@@ -41,7 +41,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class TesterLdapApp extends JFrame implements LDAPConstants {
 
-  public static final Map<String, String> trans = new HashMap<String, String>();
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -956920662176428296L;
+
+public static final Map<String, String> trans = new HashMap<String, String>();
 
   public static final Map<String, String> defvalues = new HashMap<String, String>();
 
