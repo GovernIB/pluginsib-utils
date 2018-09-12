@@ -10,3 +10,6 @@
 /plugins-webutils/.settings/org.eclipse.core.resources.prefs
 /plugins-webutils/.settings/org.eclipse.jdt.core.prefs
 /plugins-webutils/.settings/org.eclipse.m2e.core.prefs
+/ldap/target
+/cxf/.settings
+/plugins-webutils/.settings

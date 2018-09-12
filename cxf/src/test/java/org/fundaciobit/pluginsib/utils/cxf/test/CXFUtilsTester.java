@@ -25,6 +25,22 @@ public class CXFUtilsTester {
     } catch (Exception e) {
       e.printStackTrace();
     }
+    
+    
+    try {
+
+      InputStream is = FileUtils.readResource(CXFUtilsTester.class, "firma0.xsig");
+
+      byte[] data = FileUtils.toByteArray(is);
+
+      System.out.println(CXFUtils.isXMLFormat(data));
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    
+    
+    
 
   }
 
