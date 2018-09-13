@@ -29,13 +29,14 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.fundaciobit.pluginsib.core.utils.AbstractPluginProperties;
+import org.fundaciobit.pluginsib.core.utils.AbstractPluginPropertiesTranslations;
 
 /**
  * 
  * @author anadal
  *
  */
-public abstract class AbstractWebPlugin<K,V> extends AbstractPluginProperties {
+public abstract class AbstractWebPlugin<K,V> extends AbstractPluginPropertiesTranslations {
 
   protected Logger log = Logger.getLogger(this.getClass());
   
@@ -110,77 +111,77 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginProperties {
   
   
   
-  
-
-  // ---------------------------------------------------------
-  // ------------------- I18N Utils ------------------------
-  // ---------------------------------------------------------
-
-  public abstract String getResourceBundleName();
-
-  public final String getTraduccio(String key, Locale locale, Object... params) {
-    return getTraduccio(getResourceBundleName(), key, locale, params);
-  }
-
-  public final String getTraduccio(String resourceBundleName, String key, Locale locale,
-      Object... params) {
-
-    try {
-      // TODO MILLORA: Map de resourcebundle per resourceBundleName i locale
-
-      ResourceBundle rb = ResourceBundle.getBundle(resourceBundleName, locale, UTF8CONTROL);
-
-      String msgbase = rb.getString(key);
-
-      if (params != null && params.length != 0) {
-        msgbase = MessageFormat.format(msgbase, params);
-      }
-
-      return msgbase;
-
-    } catch (Exception mre) {
-      log.error("No trob la traducció per '" + key + "'", new Exception());
-      return key + "_" + locale.getLanguage().toUpperCase();
-    }
-
-  }
-
-  protected UTF8Control UTF8CONTROL = new UTF8Control();
-
-  public class UTF8Control extends ResourceBundle.Control {
-    public ResourceBundle newBundle(String baseName, Locale locale, String format,
-        ClassLoader loader, boolean reload) throws IllegalAccessException,
-        InstantiationException, IOException {
-      // The below is a copy of the default implementation.
-      String bundleName = toBundleName(baseName, locale);
-      String resourceName = toResourceName(bundleName, "properties");
-      ResourceBundle bundle = null;
-      InputStream stream = null;
-      if (reload) {
-        URL url = loader.getResource(resourceName);
-        if (url != null) {
-          URLConnection connection = url.openConnection();
-          if (connection != null) {
-            connection.setUseCaches(false);
-            stream = connection.getInputStream();
-          }
-        }
-      } else {
-        stream = loader.getResourceAsStream(resourceName);
-      }
-      if (stream != null) {
-        try {
-          // Only this line is changed to make it to read properties files as
-          // UTF-8.
-          bundle = new PropertyResourceBundle(new InputStreamReader(stream, "UTF-8"));
-        } finally {
-          stream.close();
-        }
-      }
-      return bundle;
-    }
-  }
-  
+//  
+//
+//  // ---------------------------------------------------------
+//  // ------------------- I18N Utils ------------------------
+//  // ---------------------------------------------------------
+//
+//  public abstract String getResourceBundleName();
+//
+//  public final String getTraduccio(String key, Locale locale, Object... params) {
+//    return getTraduccio(getResourceBundleName(), key, locale, params);
+//  }
+//
+//  public final String getTraduccio(String resourceBundleName, String key, Locale locale,
+//      Object... params) {
+//
+//    try {
+//      // TODO MILLORA: Map de resourcebundle per resourceBundleName i locale
+//
+//      ResourceBundle rb = ResourceBundle.getBundle(resourceBundleName, locale, UTF8CONTROL);
+//
+//      String msgbase = rb.getString(key);
+//
+//      if (params != null && params.length != 0) {
+//        msgbase = MessageFormat.format(msgbase, params);
+//      }
+//
+//      return msgbase;
+//
+//    } catch (Exception mre) {
+//      log.error("No trob la traducció per '" + key + "'", new Exception());
+//      return key + "_" + locale.getLanguage().toUpperCase();
+//    }
+//
+//  }
+//
+//  protected UTF8Control UTF8CONTROL = new UTF8Control();
+//
+//  public class UTF8Control extends ResourceBundle.Control {
+//    public ResourceBundle newBundle(String baseName, Locale locale, String format,
+//        ClassLoader loader, boolean reload) throws IllegalAccessException,
+//        InstantiationException, IOException {
+//      // The below is a copy of the default implementation.
+//      String bundleName = toBundleName(baseName, locale);
+//      String resourceName = toResourceName(bundleName, "properties");
+//      ResourceBundle bundle = null;
+//      InputStream stream = null;
+//      if (reload) {
+//        URL url = loader.getResource(resourceName);
+//        if (url != null) {
+//          URLConnection connection = url.openConnection();
+//          if (connection != null) {
+//            connection.setUseCaches(false);
+//            stream = connection.getInputStream();
+//          }
+//        }
+//      } else {
+//        stream = loader.getResourceAsStream(resourceName);
+//      }
+//      if (stream != null) {
+//        try {
+//          // Only this line is changed to make it to read properties files as
+//          // UTF-8.
+//          bundle = new PropertyResourceBundle(new InputStreamReader(stream, "UTF-8"));
+//        } finally {
+//          stream.close();
+//        }
+//      }
+//      return bundle;
+//    }
+//  }
+//  
   
 
 
@@ -276,7 +277,7 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginProperties {
   // ----------------------------------------------------------------------------
   // ------------------- MISSATGES ---------------------------------------
   // ----------------------------------------------------------------------------
-  // ----------------------------------------------------------------------------
+ // ----------------------------------------------------------------------------
 
   public static final String ERROR = "error";
 
@@ -298,7 +299,6 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginProperties {
     addMessage(signatureID, WARN, missatge);
 
   }
-
   public void saveMessageSuccess(String signatureID, String missatge) {
     addMessage(signatureID, SUCCESS, missatge);
   }
@@ -327,14 +327,14 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginProperties {
 
   }
 
-  public void clearMessages(String signatureID) {
+ public void clearMessages(String signatureID) {
     missatges.remove(signatureID);
   }
 
   public Map<String, List<String>> getMessages(String signatureID) {
-    return missatges.get(signatureID);
-  };
-  
+   return missatges.get(signatureID);
+ };
+ 
   
 
   // ---------------------------------------------------------
