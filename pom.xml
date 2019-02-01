@@ -11,6 +11,7 @@
     <module>plugins-webutils</module>
     <module>cxf</module>
     <!--	   <module>discoverplugins</module>	   -->
+    <module>templateengine</module>
   </modules>
   <repositories>
     <repository>

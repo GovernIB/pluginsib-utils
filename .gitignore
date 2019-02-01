@@ -13,3 +13,8 @@
 /ldap/target
 /cxf/.settings
 /plugins-webutils/.settings
+/templateengine/.project
+/templateengine/.settings
+/templateengine/target
+/templateengine/.classpath
+/templateengine/.gitignore
