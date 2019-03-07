@@ -3,7 +3,7 @@
 
 ***Descripció***
 
-Repositori que conté utilitats pels pluginsIB. Aquestes utilitats fan referència a _.jar_ de tercers.
+Repositori que conté utilitats per PluginsIB. Aquestes utilitats poden fer referència a dependències de tercers.
 
 ***Versions***
 > - Versió Estable: -
