@@ -1,6 +1,6 @@
 # pluginsib-utils
 
-***Implementacions***
+***Aquest repositori esta format per les següents llibreries:***
 
 Directori | Nom | Descripció
 ------------ | ------------- | -------------
