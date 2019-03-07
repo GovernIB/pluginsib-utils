@@ -1,5 +1,5 @@
 # ![Logo](https://github.com/GovernIB/maven/raw/binaris/pluginsib/projectinfo_Attachments/icon.jpg) pluginsib-utils  (pluginsib-2.0)
-*Utilitats de tercers per PluginsIB*
+*Utilitats per PluginsIB*
 
 ***Descripció***
 
