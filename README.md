@@ -13,7 +13,7 @@ Repositori que conté utilitats per PluginsIB. Aquestes utilitats poden fer refe
 
 ***Enllaços***
 
-Plugin procedent de pluginsib-1.0/plugins-utils](https://github.com/GovernIB/pluginsib/tree/pluginsib-1.0/plugins-utils).  
+Plugin procedent de [pluginsib-1.0/plugins-utils](https://github.com/GovernIB/pluginsib/tree/pluginsib-1.0/plugins-utils).  
 
 Forma part de [pluginsib-2.0](https://github.com/GovernIB/pluginsib/tree/pluginsib-2.0).
 
