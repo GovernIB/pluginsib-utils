@@ -3,7 +3,7 @@
 
 ***Versions***
 > - Versió Estable: -
-> - Versió en Desenvolupament: __pluginsib-utils-2.0__ (branca [pluginsib-utils-2.0](https://github.com/GovernIB/pluginsib-utils/tree/pluginsib-utils-2.0))
+> - Versió en Desenvolupament: __pluginsib-utils-2.0__ (branca [pluginsib-utils-2.0](../../tree/pluginsib-utils-2.0))
 
 ***Descripció***
 
