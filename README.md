@@ -1,4 +1,4 @@
-# pluginsib-utils-2.0
+# ![Logo](https://github.com/GovernIB/maven/raw/binaris/pluginsib/projectinfo_Attachments/icon.jpg) pluginsib-utils-2.0
 
 ***Aquest repositori esta format per les següents llibreries:***
 
