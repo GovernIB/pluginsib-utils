@@ -11,7 +11,7 @@ Repositori que conté utilitats per PluginsIB. Aquestes utilitats poden fer refe
 
 ***Documentació***
 
-[Documentació branca estable](../../tree/pluginsib-utils-2.0#documentaci%C3%B3)
+[Documentació de branca](../../tree/pluginsib-utils-2.0#documentaci%C3%B3)
 
 ***Enllaços***
 
