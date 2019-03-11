@@ -11,6 +11,8 @@ Repositori que conté utilitats per PluginsIB. Aquestes utilitats poden fer refe
 
 ***Documentació***
 
+[Documentació branca estable](../../tree/pluginsib-utils-2.0#documentaci%C3%B3)
+
 ***Enllaços***
 
 Plugin procedent de [pluginsib-1.0/plugins-utils](https://github.com/GovernIB/pluginsib/tree/pluginsib-1.0/plugins-utils).  
