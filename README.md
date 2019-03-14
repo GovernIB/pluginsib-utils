@@ -2,7 +2,7 @@
 *Utilitats per PluginsIB*
 
 #### ***Documentació***
-Directori | Descripció | Documentació
+Nom | Descripció | Enllaç
 ------------ | ------------- | -------------
 ------------ | ------------- | -------------
 
