@@ -10,6 +10,7 @@
     <module>ldap</module>
     <module>plugins-webutils</module>
     <module>cxf</module>
+    <module>cxf-jboss7</module>
     <!--	   <module>discoverplugins</module>	   -->
     <module>templateengine</module>
   </modules>
