@@ -18,3 +18,10 @@
 /templateengine/target
 /templateengine/.classpath
 /templateengine/.gitignore
+/cxf-jboss7/.classpath
+/cxf-jboss7/.project
+/cxf-jboss7/.settings/org.eclipse.core.resources.prefs
+/cxf-jboss7/.settings/org.eclipse.jdt.core.prefs
+/cxf-jboss7/.settings/org.eclipse.m2e.core.prefs
+/cxf-jboss7/.settings
+/cxf-jboss7/target
