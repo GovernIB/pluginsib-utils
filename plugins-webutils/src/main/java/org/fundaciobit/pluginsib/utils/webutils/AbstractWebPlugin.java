@@ -29,15 +29,13 @@ import org.fundaciobit.pluginsib.core.utils.AbstractPluginPropertiesTranslations
  * @author anadal
  *
  */
-public abstract class AbstractWebPlugin<K,V> extends AbstractPluginPropertiesTranslations {
+public abstract class AbstractWebPlugin<K, V> extends AbstractPluginPropertiesTranslations {
 
   protected Logger log = Logger.getLogger(this.getClass());
-  
 
   public static final String ABSTRACT_WEB_RES_BUNDLE = "webapi";
-  
-  public static final String WEBRESOURCE = "webresource";
 
+  public static final String WEBRESOURCE = "webresource";
 
   /**
    * 
@@ -60,123 +58,109 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginPropertiesTra
   public AbstractWebPlugin(String propertyKeyBase) {
     super(propertyKeyBase);
   }
-  
-  
-  
+
   public String getName(Locale locale) {
     return getSimpleName();
   }
-  
 
   protected abstract String getSimpleName();
-  
-  
-  //---------------------------------------------------------
- // ------------------- REQUEST BASE ------------------------
- // ---------------------------------------------------------
 
-  
-  
+  // ---------------------------------------------------------
+  // ------------------- REQUEST BASE ------------------------
+  // ---------------------------------------------------------
+
   /**
    * 
    */
   protected void requestGETPOST(String absolutePluginRequestPath,
-      String relativePluginRequestPath, K key, V value,
-      String query, Locale languageUI,
+      String relativePluginRequestPath, K key, V value, String query, Locale languageUI,
       HttpServletRequest request, HttpServletResponse response, boolean isGet) {
-
-   
 
     if (query.startsWith(WEBRESOURCE)) {
 
-      retornarRecursLocal(absolutePluginRequestPath, relativePluginRequestPath, key,
-          query, request, response, languageUI);
-    
+      retornarRecursLocal(absolutePluginRequestPath, relativePluginRequestPath, key, query,
+          request, response, languageUI);
+
     } else {
       // XYZ Fer un missatges com toca
       String titol = (isGet ? "GET" : "POST") + " " + getName(new Locale("ca"))
           + " DESCONEGUT";
-      requestNotFoundError(titol, absolutePluginRequestPath, relativePluginRequestPath,
-          query, key, request, response, languageUI);
+      requestNotFoundError(titol, absolutePluginRequestPath, relativePluginRequestPath, query,
+          key, request, response, languageUI);
     }
   }
-   
-  
-  
-  
-//  
-//
-//  // ---------------------------------------------------------
-//  // ------------------- I18N Utils ------------------------
-//  // ---------------------------------------------------------
-//
-//  public abstract String getResourceBundleName();
-//
-//  public final String getTraduccio(String key, Locale locale, Object... params) {
-//    return getTraduccio(getResourceBundleName(), key, locale, params);
-//  }
-//
-//  public final String getTraduccio(String resourceBundleName, String key, Locale locale,
-//      Object... params) {
-//
-//    try {
-//      // TODO MILLORA: Map de resourcebundle per resourceBundleName i locale
-//
-//      ResourceBundle rb = ResourceBundle.getBundle(resourceBundleName, locale, UTF8CONTROL);
-//
-//      String msgbase = rb.getString(key);
-//
-//      if (params != null && params.length != 0) {
-//        msgbase = MessageFormat.format(msgbase, params);
-//      }
-//
-//      return msgbase;
-//
-//    } catch (Exception mre) {
-//      log.error("No trob la traducció per '" + key + "'", new Exception());
-//      return key + "_" + locale.getLanguage().toUpperCase();
-//    }
-//
-//  }
-//
-//  protected UTF8Control UTF8CONTROL = new UTF8Control();
-//
-//  public class UTF8Control extends ResourceBundle.Control {
-//    public ResourceBundle newBundle(String baseName, Locale locale, String format,
-//        ClassLoader loader, boolean reload) throws IllegalAccessException,
-//        InstantiationException, IOException {
-//      // The below is a copy of the default implementation.
-//      String bundleName = toBundleName(baseName, locale);
-//      String resourceName = toResourceName(bundleName, "properties");
-//      ResourceBundle bundle = null;
-//      InputStream stream = null;
-//      if (reload) {
-//        URL url = loader.getResource(resourceName);
-//        if (url != null) {
-//          URLConnection connection = url.openConnection();
-//          if (connection != null) {
-//            connection.setUseCaches(false);
-//            stream = connection.getInputStream();
-//          }
-//        }
-//      } else {
-//        stream = loader.getResourceAsStream(resourceName);
-//      }
-//      if (stream != null) {
-//        try {
-//          // Only this line is changed to make it to read properties files as
-//          // UTF-8.
-//          bundle = new PropertyResourceBundle(new InputStreamReader(stream, "UTF-8"));
-//        } finally {
-//          stream.close();
-//        }
-//      }
-//      return bundle;
-//    }
-//  }
-//  
-  
 
+  //
+  //
+  // // ---------------------------------------------------------
+  // // ------------------- I18N Utils ------------------------
+  // // ---------------------------------------------------------
+  //
+  // public abstract String getResourceBundleName();
+  //
+  // public final String getTraduccio(String key, Locale locale, Object... params) {
+  // return getTraduccio(getResourceBundleName(), key, locale, params);
+  // }
+  //
+  // public final String getTraduccio(String resourceBundleName, String key, Locale locale,
+  // Object... params) {
+  //
+  // try {
+  // // TODO MILLORA: Map de resourcebundle per resourceBundleName i locale
+  //
+  // ResourceBundle rb = ResourceBundle.getBundle(resourceBundleName, locale, UTF8CONTROL);
+  //
+  // String msgbase = rb.getString(key);
+  //
+  // if (params != null && params.length != 0) {
+  // msgbase = MessageFormat.format(msgbase, params);
+  // }
+  //
+  // return msgbase;
+  //
+  // } catch (Exception mre) {
+  // log.error("No trob la traducció per '" + key + "'", new Exception());
+  // return key + "_" + locale.getLanguage().toUpperCase();
+  // }
+  //
+  // }
+  //
+  // protected UTF8Control UTF8CONTROL = new UTF8Control();
+  //
+  // public class UTF8Control extends ResourceBundle.Control {
+  // public ResourceBundle newBundle(String baseName, Locale locale, String format,
+  // ClassLoader loader, boolean reload) throws IllegalAccessException,
+  // InstantiationException, IOException {
+  // // The below is a copy of the default implementation.
+  // String bundleName = toBundleName(baseName, locale);
+  // String resourceName = toResourceName(bundleName, "properties");
+  // ResourceBundle bundle = null;
+  // InputStream stream = null;
+  // if (reload) {
+  // URL url = loader.getResource(resourceName);
+  // if (url != null) {
+  // URLConnection connection = url.openConnection();
+  // if (connection != null) {
+  // connection.setUseCaches(false);
+  // stream = connection.getInputStream();
+  // }
+  // }
+  // } else {
+  // stream = loader.getResourceAsStream(resourceName);
+  // }
+  // if (stream != null) {
+  // try {
+  // // Only this line is changed to make it to read properties files as
+  // // UTF-8.
+  // bundle = new PropertyResourceBundle(new InputStreamReader(stream, "UTF-8"));
+  // } finally {
+  // stream.close();
+  // }
+  // }
+  // return bundle;
+  // }
+  // }
+  //
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
@@ -205,20 +189,21 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginPropertiesTra
       return null;
     }
 
-    
-    out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">");
+    out.println(
+        "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">");
     out.println("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"" + lang
         + "\"  lang=\"" + lang + "\">");
     out.println("<head>");
 
-    out.println("<meta http-equiv=\"Content-Type\" content=\"text/html;\" charset=\"UTF-8\" >");
+    out.println(
+        "<meta http-equiv=\"Content-Type\" content=\"text/html;\" charset=\"UTF-8\" >");
 
     out.println("<title>" + getSimpleName() + "</title>");
     out.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
 
     // Javascript i CSS externs
-    getJavascriptCSS(request, absolutePluginRequestPath, relativePluginRequestPath, out,
-        key, value);
+    getJavascriptCSS(request, absolutePluginRequestPath, relativePluginRequestPath, out, key,
+        value);
 
     out.println("</head>");
     out.println("<body>");
@@ -233,7 +218,8 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginPropertiesTra
 
         for (String msg : missatgesBySignID.get(tipus)) {
           out.println("<div class=\"alert alert-" + tipus + "\">");
-          out.println("<button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>");
+          out.println(
+              "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>");
           out.println(msg);
           out.println("</div>");
         }
@@ -246,31 +232,30 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginPropertiesTra
 
   }
 
-  protected final void generateFooter(PrintWriter out,  K key, V value ) {
+  protected final void generateFooter(PrintWriter out, K key, V value) {
     out.println("</body>");
     out.println("</html>");
   }
 
-  protected void getJavascriptCSS(HttpServletRequest request,
-      String absolutePluginRequestPath, String relativePluginRequestPath, PrintWriter out,
-      K key, V value) {
+  protected void getJavascriptCSS(HttpServletRequest request, String absolutePluginRequestPath,
+      String relativePluginRequestPath, PrintWriter out, K key, V value) {
 
-    out.println("<script src=\"" + relativePluginRequestPath + "/" + WEBRESOURCE + "/js/jquery.js\"></script>");
-    out.println("<script src=\"" + relativePluginRequestPath + "/" + WEBRESOURCE + "/js/bootstrap.js\"></script>");
-    out.println("<link href=\"" + relativePluginRequestPath + "/" + WEBRESOURCE + "/css/bootstrap.css\" rel=\"stylesheet\" media=\"screen\">");
-
+    out.println("<script src=\"" + relativePluginRequestPath + "/" + WEBRESOURCE
+        + "/js/jquery.js\"></script>");
+    out.println("<script src=\"" + relativePluginRequestPath + "/" + WEBRESOURCE
+        + "/js/bootstrap.js\"></script>");
+    out.println("<link href=\"" + relativePluginRequestPath + "/" + WEBRESOURCE
+        + "/css/bootstrap.css\" rel=\"stylesheet\" media=\"screen\">");
 
   }
-  
-  
+
   protected abstract String keyToSingleString(K key);
 
- 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
   // ------------------- MISSATGES ---------------------------------------
   // ----------------------------------------------------------------------------
- // ----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
 
   public static final String ERROR = "error";
 
@@ -279,10 +264,8 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginPropertiesTra
   public static final String SUCCESS = "success";
 
   public static final String INFO = "info";
-  
 
   private Map<String, Map<String, List<String>>> missatges = new HashMap<String, Map<String, List<String>>>();
-
 
   public void saveMessageInfo(String signatureID, String missatge) {
     addMessage(signatureID, INFO, missatge);
@@ -292,6 +275,7 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginPropertiesTra
     addMessage(signatureID, WARN, missatge);
 
   }
+
   public void saveMessageSuccess(String signatureID, String missatge) {
     addMessage(signatureID, SUCCESS, missatge);
   }
@@ -320,22 +304,20 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginPropertiesTra
 
   }
 
- public void clearMessages(String signatureID) {
+  public void clearMessages(String signatureID) {
     missatges.remove(signatureID);
   }
 
   public Map<String, List<String>> getMessages(String signatureID) {
-   return missatges.get(signatureID);
- };
- 
-  
+    return missatges.get(signatureID);
+  };
 
   // ---------------------------------------------------------
   // ------------------- Utils ------------------------
   // ---------------------------------------------------------
 
-  public static Properties readPropertiesFromFile(File props) throws FileNotFoundException,
-      IOException {
+  public static Properties readPropertiesFromFile(File props)
+      throws FileNotFoundException, IOException {
 
     Properties prop = null;
     if (props.exists()) {
@@ -348,12 +330,11 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginPropertiesTra
     }
     return prop;
   }
-  
+
   // ---------------------------------------------------------
   // ------------------- DEBUG ------------------------
   // ---------------------------------------------------------
 
- 
   protected void logAllRequestInfo(HttpServletRequest request, String titol,
       String absolutePluginRequestPath, String relativePluginRequestPath, String query,
       K key) {
@@ -367,31 +348,29 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginPropertiesTra
       String absolutePluginRequestPath, String relativePluginRequestPath, String query,
       K key) {
 
-    StringBuffer str = new StringBuffer("======== PLUGIN REQUEST " + titol + " ===========\n");    
-    str.append(key.toString() + "\n");    
+    StringBuffer str = new StringBuffer("======== PLUGIN REQUEST " + titol + " ===========\n");
+    str.append(key.toString() + "\n");
     str.append(servletRequestInfoToStr(request, absolutePluginRequestPath,
         relativePluginRequestPath, query));
     return str.toString();
   }
-  
-  
-  
-  public static String servletRequestInfoToStr(HttpServletRequest request, String absolutePluginRequestPath,
-      String relativePluginRequestPath, String query) {
-    
+
+  public static String servletRequestInfoToStr(HttpServletRequest request,
+      String absolutePluginRequestPath, String relativePluginRequestPath, String query) {
+
     StringBuffer str = new StringBuffer("======== PLUGIN PARAMS INFO ===========\n");
     str.append("absolutePluginRequestPath: " + absolutePluginRequestPath + "\n");
     str.append("relativePluginRequestPath: " + relativePluginRequestPath + "\n");
     str.append("query: " + query + "\n");
-    
+
     str.append(servletRequestInfoToStr(request));
-    
+
     return str.toString();
   }
-    
-    public static String servletRequestInfoToStr(HttpServletRequest request) {
-      StringBuffer str = new StringBuffer(
-          " +++++++++++++++++ SERVLET REQUEST INFO ++++++++++++++++++++++\n");
+
+  public static String servletRequestInfoToStr(HttpServletRequest request) {
+    StringBuffer str = new StringBuffer(
+        " +++++++++++++++++ SERVLET REQUEST INFO ++++++++++++++++++++++\n");
     str.append(" ++++ Scheme: " + request.getScheme() + "\n");
     str.append(" ++++ ServerName: " + request.getServerName() + "\n");
     str.append(" ++++ ServerPort: " + request.getServerPort() + "\n");
@@ -403,26 +382,23 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginPropertiesTra
     str.append(" ++++ getRequestURL: " + request.getRequestURL() + "\n");
     str.append(" ++++ getQueryString: " + request.getQueryString() + "\n");
     str.append(" ++++ javax.servlet.forward.request_uri: "
-        + (String) request.getAttribute("javax.servlet.forward.request_uri")  + "\n");
+        + (String) request.getAttribute("javax.servlet.forward.request_uri") + "\n");
     str.append(" ===============================================================");
     return str.toString();
   }
-
-  
-
 
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
   // ------------------- UPLOAD FILES UTILS ------------------------------------
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
-  
-  
+
   /**
    * 
    * @param request
    * @param response
-   * @param params Output param. retorna els parameters NO File de la request.
+   * @param params
+   *          Output param. retorna els parameters NO File de la request.
    * @return null when error then you must call to "return;"
    */
   protected Map<String, FileItem> readFilesFromRequest(HttpServletRequest request,
@@ -436,40 +412,33 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginPropertiesTra
       }
       DiskFileItemFactory factory = new DiskFileItemFactory();
 
-      
-      File temp= getTempDir();
+      File temp = getTempDir();
       factory.setRepository(temp);
-      
-      
-      
 
       // Create a new file upload handler
       ServletFileUpload upload = new ServletFileUpload(factory);
 
       // Parse the request to get file items.
-      @SuppressWarnings("unchecked")
-	List<FileItem> fileItems = upload.parseRequest(request);
+      // @SuppressWarnings("unchecked")
+      List<FileItem> fileItems = upload.parseRequest(request);
 
-      
       Map<String, FileItem> mapFile = new HashMap<String, FileItem>();
 
       // Process the uploaded file items
       for (FileItem fi : fileItems) {
 
         if (fi.isFormField()) {
-          
+
           if (params != null) {
             String fieldname = fi.getFieldName();
             String fieldvalue = fi.getString();
-            params.put(fieldname,  fieldvalue);
+            params.put(fieldname, fieldvalue);
           }
-          
-          
+
         } else {
           String fieldName = fi.getFieldName();
           if (log.isDebugEnabled()) {
-            log.debug("Uploaded File:  PARAM = " + fieldName + " | FILENAME: "
-              + fi.getName());
+            log.debug("Uploaded File:  PARAM = " + fieldName + " | FILENAME: " + fi.getName());
           }
 
           mapFile.put(fieldName, fi);
@@ -493,37 +462,32 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginPropertiesTra
     }
 
   }
-  
-  
+
   public static File tempDir = null;
-  
+
   protected synchronized File getTempDir() throws IOException {
-    
+
     if (tempDir == null) {
       File temp = File.createTempFile("test", "test");
-      
+
       tempDir = temp.getParentFile();
-            
+
       if (!temp.delete()) {
         temp.deleteOnExit();
       }
     }
-    
-    return tempDir;
-    
-  }
-  
-  
- 
-  
-  // ---------------------------------------------------------
-  // ------------------- READ LOCAL RESOURCES  ---------------
-  // ---------------------------------------------------------
 
+    return tempDir;
+
+  }
+
+  // ---------------------------------------------------------
+  // ------------------- READ LOCAL RESOURCES ---------------
+  // ---------------------------------------------------------
 
   protected boolean retornarRecursLocal(String absolutePluginRequestPath,
-      String relativePluginRequestPath, K key, String query,
-      HttpServletRequest request, HttpServletResponse response, Locale languageUI) {
+      String relativePluginRequestPath, K key, String query, HttpServletRequest request,
+      HttpServletResponse response, Locale languageUI) {
     byte[] contingut = null;
     String mime = getMimeType(query);
     query = query.replace('\\', '/');
@@ -540,14 +504,12 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginPropertiesTra
 
         int pos = query.lastIndexOf('/');
         String resourcename = pos == -1 ? query : query.substring(pos + 1);
-        
+
         OutputStream out = response.getOutputStream();
-        
 
         response.setContentType(mime);
         response.setHeader("Content-Disposition", "inline; filename=\"" + resourcename + "\"");
         response.setContentLength(contingut.length);
-
 
         out.write(contingut);
         out.flush();
@@ -558,12 +520,13 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginPropertiesTra
       log.error("Error llegint recurs " + query, e);
     }
 
-    // ERROR:  "No trob el recurs " + query;
-    String titol = getTraduccio(ABSTRACT_WEB_RES_BUNDLE,"notfound.resource", languageUI, query);
+    // ERROR: "No trob el recurs " + query;
+    String titol = getTraduccio(ABSTRACT_WEB_RES_BUNDLE, "notfound.resource", languageUI,
+        query);
 
     requestNotFoundError(titol, absolutePluginRequestPath, relativePluginRequestPath, query,
         key, request, response, languageUI);
-    
+
     return false;
   }
 
@@ -596,9 +559,6 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginPropertiesTra
     return mime;
   }
 
- 
-  
-  
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
   // ------------------- GESTIO D'ERRORS ---------------------------------------
@@ -606,16 +566,17 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginPropertiesTra
   // ---------------------------------------------------------------------------
 
   public void requestTimeOutError(String absolutePluginRequestPath,
-      String relativePluginRequestPath, String query, K key, HttpServletRequest request, 
+      String relativePluginRequestPath, String query, K key, HttpServletRequest request,
       HttpServletResponse response, String titol) {
     String str = allRequestInfoToStr(request, titol, absolutePluginRequestPath,
         relativePluginRequestPath, query, key);
 
     // TODO Traduir
-    // El procés  amb ID " + key  + " ha caducat. Torni a intentar-ho.\n";
+    // El procés amb ID " + key + " ha caducat. Torni a intentar-ho.\n";
     Locale locale = request.getLocale();
 
-    String msg = getTraduccio(ABSTRACT_WEB_RES_BUNDLE, "timeout.error", locale, getName(locale), key.toString());
+    String msg = getTraduccio(ABSTRACT_WEB_RES_BUNDLE, "timeout.error", locale,
+        getName(locale), key.toString());
 
     log.error(msg + "\n" + str);
 
@@ -628,14 +589,14 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginPropertiesTra
   }
 
   public void requestNotFoundError(String titol, String absolutePluginRequestPath,
-      String relativePluginRequestPath, String query, K key, HttpServletRequest request, HttpServletResponse response,
-      Locale locale) {
+      String relativePluginRequestPath, String query, K key, HttpServletRequest request,
+      HttpServletResponse response, Locale locale) {
     String str = allRequestInfoToStr(request, titol, absolutePluginRequestPath,
         relativePluginRequestPath, query, key);
     // S'ha realitzat una petició al plugin [{0}] però no s'ha trobat cap mètode
     // per processar-la {1}
-    String msg = getTraduccio(ABSTRACT_WEB_RES_BUNDLE, "notfound.error", locale, getName(locale),
-        str);
+    String msg = getTraduccio(ABSTRACT_WEB_RES_BUNDLE, "notfound.error", locale,
+        getName(locale), str);
 
     log.error(msg + "\n" + str);
     // No emprar ni 404 ni 403
@@ -646,7 +607,7 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginPropertiesTra
       log.error(e.getMessage(), e);
     }
   }
-  
+
   /**
    * 
    * @param response
@@ -654,7 +615,7 @@ public abstract class AbstractWebPlugin<K,V> extends AbstractPluginPropertiesTra
    * @param errorMsg
    * @param th
    */
-  public abstract void finishWithError(HttpServletResponse response, V value,
-      String errorMsg, Throwable th);
+  public abstract void finishWithError(HttpServletResponse response, V value, String errorMsg,
+      Throwable th);
 
 }
