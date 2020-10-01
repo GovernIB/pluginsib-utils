@@ -44,6 +44,18 @@ public class TemplateEngineTester {
 
         System.out.println("Result[" + plantilles[i] + "]: " + result);
       }
+      
+      hola.setCaracola(4321);
+      
+      plantilles = new String[] { "[=hola.caracola]", "[=hola.caracola?c]" };
+      
+      for (int i = 0; i < plantilles.length; i++) {
+        String result = TemplateEngine.processExpressionLanguageSquareBrackets(plantilles[i], parameters);
+
+        System.out.println("Result[" + plantilles[i] + "]: " + result);
+      }
+      
+      
 
     } catch (Exception e) {
       e.printStackTrace();

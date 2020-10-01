@@ -25,3 +25,6 @@
 /cxf-jboss7/.settings/org.eclipse.m2e.core.prefs
 /cxf-jboss7/.settings
 /cxf-jboss7/target
+/plugins-webutils/target/
+/cxf/target/
+/templateengine/nbproject/

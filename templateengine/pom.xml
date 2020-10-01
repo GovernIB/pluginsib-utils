@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.fundaciobit.pluginsib.utils</groupId>
   <artifactId>pluginsib-utils-templateengine</artifactId>
-  <version>2.0.0</version>
+  <version>2.0.1</version>
   <packaging>jar</packaging>
   <name>PluginsIB - Utils - TemplateEngine</name>
   <parent>
@@ -44,7 +44,7 @@
     <dependency>
       <groupId>org.freemarker</groupId>
       <artifactId>freemarker</artifactId>
-      <version>2.3.23</version>
+      <version>2.3.28</version>
     </dependency>
     
     
