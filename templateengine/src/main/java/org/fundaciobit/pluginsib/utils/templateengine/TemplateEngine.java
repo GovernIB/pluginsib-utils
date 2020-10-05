@@ -66,11 +66,18 @@ public class TemplateEngine {
     Template template;
     template = new Template("exampleTemplate", new StringReader(plantilla), configuration);
 
+    //log.info("Parametres");
+    //log.info(parameters.toString());
+        
     try {
       Writer out = new StringWriter();
       template.process(parameters, out);
 
       String res = out.toString();
+      
+      //log.info("Resultats del plugin");
+      //log.info(res);
+      
       return res;
     } catch (TemplateException te) {
       final String msg = "No s'ha pogut processar l'Expression Language " + plantilla + ":"
