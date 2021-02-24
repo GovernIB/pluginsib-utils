@@ -403,6 +403,13 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
           sc.setSearchScope(SearchControls.SUBTREE_SCOPE);
         }
       }
+      //
+      String additionalAttributesProperty = ldapProperties.getProperty(LDAP_ADDITIONAL_ATTRIBUTES);
+      if (additionalAttributesProperty != null && !additionalAttributesProperty.isEmpty()) {
+        String[] additionalAttributes = additionalAttributesProperty.split(",");
+        sc.setReturningAttributes(additionalAttributes);
+      }
+
       String usersContextDN = ldapProperties.getProperty(LDAP_USERSCONTEXTDN);
       NamingEnumeration<SearchResult> answer;
       answer = ctx.search(usersContextDN, fullFilter, sc);
