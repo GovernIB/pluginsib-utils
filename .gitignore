@@ -1,30 +1,12 @@
-/cxf/.classpath
-/cxf/.gitignore
-/cxf/.project
-/cxf/.settings/org.eclipse.core.resources.prefs
-/cxf/.settings/org.eclipse.jdt.core.prefs
-/cxf/.settings/org.eclipse.m2e.core.prefs
-/plugins-webutils/.classpath
-/plugins-webutils/.gitignore
-/plugins-webutils/.project
-/plugins-webutils/.settings/org.eclipse.core.resources.prefs
-/plugins-webutils/.settings/org.eclipse.jdt.core.prefs
-/plugins-webutils/.settings/org.eclipse.m2e.core.prefs
-/ldap/target
-/cxf/.settings
-/plugins-webutils/.settings
-/templateengine/.project
-/templateengine/.settings
-/templateengine/target
-/templateengine/.classpath
-/templateengine/.gitignore
-/cxf-jboss7/.classpath
-/cxf-jboss7/.project
-/cxf-jboss7/.settings/org.eclipse.core.resources.prefs
-/cxf-jboss7/.settings/org.eclipse.jdt.core.prefs
-/cxf-jboss7/.settings/org.eclipse.m2e.core.prefs
-/cxf-jboss7/.settings
-/cxf-jboss7/target
-/plugins-webutils/target/
-/cxf/target/
-/templateengine/nbproject/
+# Excloure del repositori
+# Fitxers i directoris del Maven
+target/
+# Fitxers de projecte de Eclipse
+.classpath
+.project
+.settings/
+# Fitxers de projecte de IntelliJ IDEA
+*.iml
+.idea/
+# Fitxers de projecte de Netbeans
+nb-configuration.xml

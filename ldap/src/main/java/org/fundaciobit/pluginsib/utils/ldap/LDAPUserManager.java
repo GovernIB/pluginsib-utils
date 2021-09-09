@@ -34,8 +34,7 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
   /**
    * LDAP Properties.
    */
-  private Properties ldapProperties = null;
-  
+  private final Properties ldapProperties;
 
   /**
    * Initializes the configuration instance from the specified context wrapper.
@@ -53,40 +52,27 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
     ldapProperties = ldapProp;
   }
 
-
-  /**
-   * 
-   * @param userName
-   * @return User information
-   * @throws Exception
-   */
   public LDAPUser getUserByUsername(String userName) throws Exception {
     SearchResult result = internalGetUser(LDAP_USERNAME_ATTRIBUTE, userName);
     if (result == null) {
       return null;
     } else {
-      LDAPUser usrData = searchResultToUser(result);
-      return usrData;
+      return searchResultToUser(result);
     }
   }
-  
-  
-  
+
   public LDAPUser getUserByAdministrationID(String nif) throws Exception {
     SearchResult result = internalGetUser(LDAP_ADMINISTRATIONID_ATTRIBUTE, nif);
     if (result == null) {
       return null;
     } else {
-      LDAPUser usrData = searchResultToUser(result);
-      return usrData;
+      return searchResultToUser(result);
     }
   }
   
 
   /**
-   * 
-   * @param userName
-   *          User name.
+   *
    * @return SearchResult associated to user <code>userName</code>.
    */ 
   private SearchResult internalGetUser(String attribute, String value) {
@@ -97,8 +83,6 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
       NamingEnumeration<SearchResult> answer = searchLDAP(userFilter);
       if (answer.hasMore()) {
         result = answer.next();
-      } else {
-        // System.out.println("The user does not exist:" + userName);
       }
     } catch (Exception e) {
       System.out.println("Unknown error searching " + attribute + " = " + value
@@ -261,8 +245,7 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
    */
   public List<String> getAllUserNames() throws Exception {
 
-    final String filter = null; // Null get all results.
-    NamingEnumeration<SearchResult> enumeration = searchLDAP(filter);
+    NamingEnumeration<SearchResult> enumeration = searchLDAP(null); // Null get all results.
     List<String> list = new ArrayList<String>();
     while (enumeration.hasMore()) {
       SearchResult sr = enumeration.next();
@@ -283,8 +266,7 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
    */
   public LDAPUser[] getUserArray() throws Exception {
 
-    final String filter = null; // Null get all results.
-    NamingEnumeration<SearchResult> enumeration = searchLDAP(filter);
+    NamingEnumeration<SearchResult> enumeration = searchLDAP(null);  // Null get all results.
     List<LDAPUser> list = new ArrayList<LDAPUser>();
     while (enumeration.hasMore()) {
       SearchResult sr = enumeration.next();
@@ -292,8 +274,7 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
       list.add(usr);
     }
     Collections.sort(list);
-    return list.toArray(new LDAPUser[list.size()]);
-
+    return list.toArray(new LDAPUser[0]);
   }
 
   // ====================================================================
@@ -328,7 +309,6 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
     
     /**
      * Create an instance of InitialDirContext for ldap administrator user.
-     * @param ldapProperties LDAP properties.
      * @return New instance of InitialDirContext.
      */
     public InitialDirContext getAdminInitialDirContext()
@@ -367,7 +347,7 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
      * Search items.
      * @param customFilter Filter to apply. If null then select all.
      * @return Results of the Search
-     * @throws NamingException
+     * @throws NamingException if an error ocurrs
      */
     public NamingEnumeration<SearchResult> searchLDAP(String customFilter) throws NamingException {
       InitialDirContext ctx = getInitialDirContext();
@@ -403,6 +383,13 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
           sc.setSearchScope(SearchControls.SUBTREE_SCOPE);
         }
       }
+      //
+      String additionalAttributesProperty = ldapProperties.getProperty(LDAP_ADDITIONAL_ATTRIBUTES);
+      if (additionalAttributesProperty != null && !additionalAttributesProperty.isEmpty()) {
+        String[] additionalAttributes = additionalAttributesProperty.split(",");
+        sc.setReturningAttributes(additionalAttributes);
+      }
+
       String usersContextDN = ldapProperties.getProperty(LDAP_USERSCONTEXTDN);
       NamingEnumeration<SearchResult> answer;
       answer = ctx.search(usersContextDN, fullFilter, sc);
@@ -412,7 +399,6 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
 
     /**
      * Authenticate user.
-     * @param ldapProperties LDAP properties
      * @param username User name
      * @param password Password.
      * @return true, if we have authenticate this user and its password.
