@@ -18,7 +18,7 @@ GOTO EOF
 
 :EXAMPLE
 
-mvn exec:java -Dexec.mainClass="org.fundaciobit.plugins.utils.ldap.TesterLdapApp" -Dexec.args="%1 %2 %3"
+mvn exec:java -Dexec.mainClass="org.fundaciobit.pluginsib.utils.ldap.TesterLdapApp" -Dexec.args="%1 %2 %3"
 
 GOTO EOF
 
