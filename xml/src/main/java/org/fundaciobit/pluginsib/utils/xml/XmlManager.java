@@ -286,10 +286,10 @@ public class XmlManager<T> {
     }
     
     public T generateItem(Element element) throws JAXBException, IOException{
-        return generateItem(element, false);
+        return generateItem(element, false, true);
     }
     
-    public T generateItem(Element element, boolean noCheckXmlns) throws JAXBException, IOException{
+    public T generateItem(Element element, boolean noCheckXmlns, boolean addXmlns) throws JAXBException, IOException{
         
         if (element==null) return null;
         
@@ -316,7 +316,7 @@ public class XmlManager<T> {
             Logger.getLogger(XmlManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        if (xmlSchemaAnnotation!=null){
+        if (addXmlns && xmlSchemaAnnotation!=null){
             element.setAttribute(XMLConstants.XMLNS_ATTRIBUTE, xmlSchemaAnnotation.namespace());
         }
         
