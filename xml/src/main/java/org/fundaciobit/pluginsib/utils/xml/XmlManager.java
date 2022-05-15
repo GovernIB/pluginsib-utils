@@ -63,7 +63,8 @@ import org.xml.sax.SAXException;
  */
 public class XmlManager<T> {
 
-    
+    private static final Logger LOG = Logger.getLogger(XmlManager.class.getName());
+
     private final Class<T> clazz;
 
     private final JAXBContext jaxbContext;
@@ -294,13 +295,17 @@ public class XmlManager<T> {
         
         if (noCheckXmlns) return serializeElementAndGenerateItem(element);
         
-        if (!("".equals(element.getAttribute(XMLConstants.XMLNS_ATTRIBUTE)))) return serializeElementAndGenerateItem(element);
-        
         XmlSchema xmlSchemaAnnotation = getXmlSchemaAnnotation();
         
-        if (xmlSchemaAnnotation == null) return serializeElementAndGenerateItem(element);
+        String attribute = element.getAttribute(XMLConstants.XMLNS_ATTRIBUTE);
+        
+        LOG.log(Level.INFO, "SCDCPAJUv3Client :: Esquema :: XMLSchemaAnnotation: {0}", xmlSchemaAnnotation);
+        LOG.log(Level.INFO, "SCDCPAJUv3Client :: Element :: xmlns: {0}", attribute);
+        
         element.removeAttribute(XMLConstants.XMLNS_ATTRIBUTE);
-        element.setAttribute(XMLConstants.XMLNS_ATTRIBUTE, xmlSchemaAnnotation.namespace());
+        if (xmlSchemaAnnotation!=null){
+            element.setAttribute(XMLConstants.XMLNS_ATTRIBUTE, xmlSchemaAnnotation.namespace());
+        }
         
         return serializeElementAndGenerateItem(element);
     }
@@ -408,6 +413,7 @@ public class XmlManager<T> {
         return doc.getDocumentElement();
     }
 
+    
     private String elementToString(Element element) throws TransformerException {
         TransformerFactory transFactory = TransformerFactory.newInstance();
         Transformer transformer = transFactory.newTransformer();
