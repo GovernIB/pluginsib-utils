@@ -302,9 +302,28 @@ public class XmlManager<T> {
         LOG.log(Level.INFO, "SCDCPAJUv3Client :: Esquema :: XMLSchemaAnnotation: {0}", xmlSchemaAnnotation);
         LOG.log(Level.INFO, "SCDCPAJUv3Client :: Element :: xmlns: {0}", attribute);
         
+        try {
+            LOG.log(Level.INFO, "SCDCPAJUv3Client :: Element :: Antes: {0}", elementToString(element));
+        } catch (TransformerException ex) {
+            Logger.getLogger(XmlManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     
         element.removeAttribute(XMLConstants.XMLNS_ATTRIBUTE);
+
+        try {
+            LOG.log(Level.INFO, "SCDCPAJUv3Client :: Element :: NoAtribut: {0}", elementToString(element));
+        } catch (TransformerException ex) {
+            Logger.getLogger(XmlManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         if (xmlSchemaAnnotation!=null){
             element.setAttribute(XMLConstants.XMLNS_ATTRIBUTE, xmlSchemaAnnotation.namespace());
+        }
+        
+        try {
+            LOG.log(Level.INFO, "SCDCPAJUv3Client :: Element :: Attribute default: {0}", elementToString(element));
+        } catch (TransformerException ex) {
+            Logger.getLogger(XmlManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return serializeElementAndGenerateItem(element);
