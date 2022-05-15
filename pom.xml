@@ -12,6 +12,8 @@
     <module>cxf</module>
     <module>cxf-jboss7</module>
     <module>ssl</module>
+    <module>ws</module>
+    <module>xml</module>
     <!--	   <module>discoverplugins</module>	   -->
     <module>templateengine</module>
   </modules>
