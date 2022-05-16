@@ -210,17 +210,7 @@ public class XmlManager<T> {
         
         try {
             element = stringToElement(xml);
-
-            //System.out.println("Elemento ANTES");
-            //System.out.println(elementToString(element));
-            //System.out.println("Antes: " + element.getAttribute(XMLConstants.XMLNS_ATTRIBUTE));
-
-            element.removeAttribute(XMLConstants.XMLNS_ATTRIBUTE);
-
-            //System.out.println("Despues: " + element.getAttribute(XMLConstants.XMLNS_ATTRIBUTE));
-            //System.out.println("Elemento DESPUES");
-            //System.out.println(elementToString(element));
-
+            if (!withXmlns) element.removeAttribute(XMLConstants.XMLNS_ATTRIBUTE);
             return element;
 
         } catch (TransformerException ex) {
