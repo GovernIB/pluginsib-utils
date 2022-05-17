@@ -289,11 +289,11 @@ public class XmlManager<T> {
         
         String attribute = element.getAttribute(XMLConstants.XMLNS_ATTRIBUTE);
         
-        LOG.log(Level.INFO, "SCDCPAJUv3Client :: Esquema :: XMLSchemaAnnotation: {0}", xmlSchemaAnnotation);
-        LOG.log(Level.INFO, "SCDCPAJUv3Client :: Element :: xmlns: {0}", attribute);
+        LOG.log(Level.INFO, "XmlManager :: Esquema :: XMLSchemaAnnotation: {0}", xmlSchemaAnnotation);
+        LOG.log(Level.INFO, "XmlManager :: Element :: xmlns: {0}", attribute);
         
         try {
-            LOG.log(Level.INFO, "SCDCPAJUv3Client :: Element :: Antes: {0}", elementToString(element));
+            LOG.log(Level.INFO, "XmlManager :: Element :: Antes: {0}", elementToString(element));
         } catch (TransformerException ex) {
             Logger.getLogger(XmlManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -301,7 +301,7 @@ public class XmlManager<T> {
         element.removeAttribute(XMLConstants.XMLNS_ATTRIBUTE);
 
         try {
-            LOG.log(Level.INFO, "SCDCPAJUv3Client :: Element :: NoAtribut: {0}", elementToString(element));
+            LOG.log(Level.INFO, "XmlManager :: Element :: NoAtribut: {0}", elementToString(element));
         } catch (TransformerException ex) {
             Logger.getLogger(XmlManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -311,7 +311,7 @@ public class XmlManager<T> {
         }
         
         try {
-            LOG.log(Level.INFO, "SCDCPAJUv3Client :: Element :: Attribute default: {0}", elementToString(element));
+            LOG.log(Level.INFO, "XmlManager :: Element :: Attribute default: {0}", elementToString(element));
         } catch (TransformerException ex) {
             Logger.getLogger(XmlManager.class.getName()).log(Level.SEVERE, null, ex);
         }
