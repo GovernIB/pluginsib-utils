@@ -4,11 +4,9 @@
  */
 package org.fundaciobit.pluginsib.utils.xml;
 
-import es.caib.scsp.esquemas.SCDCPAJUv3.peticion.datosespecificos.Solicitud;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchema;
@@ -29,6 +27,8 @@ import org.xml.sax.SAXException;
  * @author gdeignacio
  */
 public class XmlManagerTest {
+
+    private static final Logger LOG = Logger.getLogger(XmlManagerTest.class.getName());
     
     XmlManager<PeticionDatosEspecificosTest> manager;
     
@@ -51,34 +51,17 @@ public class XmlManagerTest {
     
     @Before
     public void setUp() {
-        
-        
+
         try {
             manager = new XmlManager<PeticionDatosEspecificosTest>(PeticionDatosEspecificosTest.class);
-            
-            item = new PeticionDatosEspecificosTest();
-            
-            xml = "<datosEspecificos><Solicitud><ProvinciaSolicitud>07</ProvinciaSolicitud><MunicipioSolicitud>026</MunicipioSolicitud><Titular><Documentacion><Tipo>NIF</Tipo><Valor>43085322C</Valor></Documentacion></Titular></Solicitud></datosEspecificos>";
-            
-            try {
-                manager.stringToElement(xml);
-            } catch (TransformerException ex) {
-                Logger.getLogger(XmlManagerTest.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ParserConfigurationException ex) {
-                Logger.getLogger(XmlManagerTest.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SAXException ex) {
-                Logger.getLogger(XmlManagerTest.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(XmlManagerTest.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            
         } catch (JAXBException ex) {
             Logger.getLogger(XmlManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        
+
+        item = new PeticionDatosEspecificosTest();
+
+        xml = "<datosEspecificos><Solicitud><ProvinciaSolicitud>07</ProvinciaSolicitud><MunicipioSolicitud>026</MunicipioSolicitud><Titular><Documentacion><Tipo>NIF</Tipo><Valor>43085322C</Valor></Documentacion></Titular></Solicitud></datosEspecificos>";
+
     }
     
     @After
@@ -127,16 +110,12 @@ public class XmlManagerTest {
      */
     @Test
     public void testGenerateItem_String() throws Exception {
-        System.out.println("generateItem");
         
-        Object expResult = null;
-        Object result = manager.generateItem(element);
-        //assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(xml);
+        element  = manager.stringToElement(xml);
+        assertNotNull(element);
         
-        
-        
+        LOG.info("XmlManagerTest :: Element: " +  ((element!=null)?element.toString():""));
         
         NamedNodeMap attrs = element.getAttributes();
         
@@ -144,6 +123,19 @@ public class XmlManagerTest {
             attrs.removeNamedItem(attrs.item(0).getNodeName());
         }
         
+        //peticionDatosEspecificos.setAttribute(XMLConstants.XMLNS_ATTRIBUTE.concat(":ns2"), EMISERV_BACKOFFICE_XMLNS);
+       
+        item = manager.generateItem(element, false, true);
+        
+        assertNotNull(item);
+
+        assertNotNull(item.getSolicitud());
+        
+        LOG.info("XmlManagerTest :: Datos Especificos Peticion: " +  ((item!=null)?item.getSolicitud().getProvinciaSolicitud().toString():""));
+        
+        
+        
+
         //peticionDatosEspecificos.setAttribute(XMLConstants.XMLNS_ATTRIBUTE.concat(":ns2"), EMISERV_BACKOFFICE_XMLNS);
        
         
@@ -154,6 +146,7 @@ public class XmlManagerTest {
 
         log.info("SCDCPAJUv3Client :: Datos Especificos Peticion: " +  ((pde!=null)?pde.toString():""));
         */
+
         
         
         
