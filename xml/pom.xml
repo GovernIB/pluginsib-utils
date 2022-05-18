@@ -66,6 +66,14 @@
       <version>1.3.2</version>
       <type>jar</type>
     </dependency>
+    
+    <dependency>
+        <groupId>es.caib.scsp</groupId>
+        <artifactId>SCDCPAJUv3-schemas-xsd</artifactId>
+        <version>1.0.0</version>
+        <scope>test</scope>
+    </dependency>
+    
   </dependencies>
   <build>
     <plugins>

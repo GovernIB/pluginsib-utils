@@ -408,11 +408,11 @@ public class XmlManager<T> {
     }
     
     
-    private Element stringToElement(String xml) throws TransformerException, ParserConfigurationException, SAXException, IOException{
+    public Element stringToElement(String xml) throws TransformerException, ParserConfigurationException, SAXException, IOException{
         return stringToElement(xml, Boolean.FALSE);
     }
     
-    private Element stringToElement(String xml, boolean namespaceAware) throws TransformerException, ParserConfigurationException, SAXException, IOException {
+    public Element stringToElement(String xml, boolean namespaceAware) throws TransformerException, ParserConfigurationException, SAXException, IOException {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         dbFactory.setNamespaceAware(namespaceAware);
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -423,7 +423,7 @@ public class XmlManager<T> {
     }
 
     
-    private String elementToString(Element element) throws TransformerException {
+    public String elementToString(Element element) throws TransformerException {
         TransformerFactory transFactory = TransformerFactory.newInstance();
         Transformer transformer = transFactory.newTransformer();
         StringWriter buffer = new StringWriter();
