@@ -54,10 +54,11 @@ public class TemplateEngine {
 
     Configuration configuration;
 
-    configuration = new Configuration(Configuration.VERSION_2_3_28);
+    configuration = new Configuration(Configuration.VERSION_2_3_31);
     configuration.setDefaultEncoding("UTF-8");
     if (useSquareBrackets){
         configuration.setInterpolationSyntax(Configuration.SQUARE_BRACKET_INTERPOLATION_SYNTAX);
+        configuration.setTagSyntax(Configuration.SQUARE_BRACKET_TAG_SYNTAX);
     }
     
     if (locale != null) {
