@@ -1,5 +1,7 @@
 package org.fundaciobit.pluginsib.utils.ldap;
 
+import java.util.Arrays;
+
 /**
  * Information about a LDAP user.
  * 
@@ -8,196 +10,219 @@ package org.fundaciobit.pluginsib.utils.ldap;
  */
 public class LDAPUser implements Comparable<LDAPUser>, Cloneable {
 
-  /** Name of this user. */
-  private String userName;
+    /** Name of this user. */
+    private String userName;
 
-  /** User's e-mail. */
-  private String email = "";
+    /** User's e-mail. */
+    private String email = "";
 
-  /**
-   * Name
-   */
-  private String name;
+    /**
+     * Name
+     */
+    private String name;
 
-  private String surnames;
-  
-  private String surname1;
-  
-  private String surname2;
+    private String surnames;
 
-  private String[] memberOf;
+    private String surname1;
 
-  private String administrationID;
-  
-  private String telephoneNumber;
+    private String surname2;
 
-  /**
-   * Default constructor.
-   */
-  public LDAPUser() {
-  }
+    private String[] memberOf;
 
-  /**
-   * Sets the name of this user.
-   * 
-   * @param userName
-   *          a string with the name of this user
-   */
-  public void setUserName(String userName) {
-    this.userName = userName;
-  }
+    private String administrationID;
 
-  /**
-   * Gets the name of this user.
-   * 
-   * @return a string with the name of this user.
-   */
-  public String getUserName() {
-    return this.userName;
-  }
+    private String telephoneNumber;
 
-  /**
-   * Sets this user's e-mail.
-   * 
-   * @param mailAddress
-   *          a string with the e-mail address of this user
-   */
-  public void setEmail(String mailAddress) {
-    this.email = mailAddress;
-  }
+    private String department;
 
-  /**
-   * Gets the e-mail of this user.
-   * 
-   * @return a string with the e-mail address of the user.
-   */
-  public String getEmail() {
-    return this.email;
-  }
+    private String[] roles;
 
-  public String[] getMemberOf() {
-    return memberOf;
-  }
-
-  public void setMemberOf(String[] memberOf) {
-    this.memberOf = memberOf;
-  }
-
-  public String getAdministrationID() {
-    return administrationID;
-  }
-
-  public void setAdministrationID(String administrationID) {
-    this.administrationID = administrationID;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getSurnames() {
-    return surnames;
-  }
-
-  public void setSurnames(String surnames) {
-    this.surnames = surnames;
-  }
-
-  public String getSurname1() {
-    return surname1;
-  }
-
-  public void setSurname1(String surname1) {
-    this.surname1 = surname1;
-  }
-
-  public String getSurname2() {
-    return surname2;
-  }
-
-  public void setSurname2(String surname2) {
-    this.surname2 = surname2;
-  }
-
-  public String getTelephoneNumber() {
-    return telephoneNumber;
-  }
-
-  public void setTelephoneNumber(String telephoneNumber) {
-    this.telephoneNumber = telephoneNumber;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public boolean equals(Object obj) {
-    if (obj instanceof LDAPUser) {
-      LDAPUser that = (LDAPUser) obj;
-      return this.getUserName().equals(that.getUserName());
-    } else {
-      return false;
+    /**
+     * Default constructor.
+     */
+    public LDAPUser() {
     }
-  }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public int hashCode() {
-    return this.getUserName().hashCode();
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public String toString() {
-    return "User::" + this.getUserName();
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public int compareTo(LDAPUser that) {
-    if (that == null) {
-      return 1;
-    } else if (this == that) {
-      return 0;
-    } else {
-      return this.getUserName().compareTo(that.getUserName());
+    /**
+     * Sets the name of this user.
+     * 
+     * @param userName
+     *          a string with the name of this user
+     */
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
-  }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public Object clone() {
-    try {
-      return super.clone();
-    } catch (CloneNotSupportedException e) {
-      throw new InternalError("Failed to clone a User instance");
+    /**
+     * Gets the name of this user.
+     * 
+     * @return a string with the name of this user.
+     */
+    public String getUserName() {
+        return this.userName;
     }
-  }
-  
-  
-  public static String getCorrectSurname(LDAPUser u) {
-    String surnames = null;
-    if (u.getSurname1() != null && u.getSurname2() != null) {
-      surnames = u.getSurname1() + " " + u.getSurname2();
-    } else {
-      surnames = u.getSurnames();
-      if (surnames == null) {
-        surnames = u.getSurname1();
-      }
+
+    /**
+     * Sets this user's e-mail.
+     * 
+     * @param mailAddress
+     *          a string with the e-mail address of this user
+     */
+    public void setEmail(String mailAddress) {
+        this.email = mailAddress;
     }
-    return surnames;
-  }
-  
+
+    /**
+     * Gets the e-mail of this user.
+     * 
+     * @return a string with the e-mail address of the user.
+     */
+    public String getEmail() {
+        return this.email;
+    }
+
+    public String[] getMemberOf() {
+        return memberOf;
+    }
+
+    public void setMemberOf(String[] memberOf) {
+        this.memberOf = memberOf;
+    }
+
+    public String getAdministrationID() {
+        return administrationID;
+    }
+
+    public void setAdministrationID(String administrationID) {
+        this.administrationID = administrationID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurnames() {
+        return surnames;
+    }
+
+    public void setSurnames(String surnames) {
+        this.surnames = surnames;
+    }
+
+    public String getSurname1() {
+        return surname1;
+    }
+
+    public void setSurname1(String surname1) {
+        this.surname1 = surname1;
+    }
+
+    public String getSurname2() {
+        return surname2;
+    }
+
+    public void setSurname2(String surname2) {
+        this.surname2 = surname2;
+    }
+
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
+
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String[] getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String[] roles) {
+        this.roles = roles;
+    }
+
+    /**
+       * {@inheritDoc}
+       */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof LDAPUser) {
+            LDAPUser that = (LDAPUser) obj;
+            return this.getUserName().equals(that.getUserName());
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return this.getUserName().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "LDAPUser [userName=" + userName + ", email=" + email + ", name=" + name + ", surnames=" + surnames
+                + ", surname1=" + surname1 + ", surname2=" + surname2 + ", memberOf=" + Arrays.toString(memberOf)
+                + ", administrationID=" + administrationID + ", telephoneNumber=" + telephoneNumber + ", department="
+                + department + ", roles=" + Arrays.toString(roles) + "]";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public int compareTo(LDAPUser that) {
+        if (that == null) {
+            return 1;
+        } else if (this == that) {
+            return 0;
+        } else {
+            return this.getUserName().compareTo(that.getUserName());
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new InternalError("Failed to clone a User instance");
+        }
+    }
+    
+    
+    public static String getFullName(LDAPUser u) {
+        return u.getName() + " " + getCorrectSurname(u);
+    }
+
+    public static String getCorrectSurname(LDAPUser u) {
+        String surnames = null;
+        if (u.getSurname1() != null && u.getSurname2() != null) {
+            surnames = u.getSurname1() + " " + u.getSurname2();
+        } else {
+            surnames = u.getSurnames();
+            if (surnames == null) {
+                surnames = u.getSurname1();
+            }
+        }
+        return surnames;
+    }
 
 }
