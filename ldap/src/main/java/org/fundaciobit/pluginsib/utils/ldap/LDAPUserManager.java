@@ -18,12 +18,16 @@ import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 
+import org.apache.log4j.Logger;
+
 /**
  * LDAP User Manager
  * @author anadal
  * 
  */
 public class LDAPUserManager implements LDAPConstants, Serializable {
+
+    private Logger log = Logger.getLogger(this.getClass());
 
     /**
      * 
@@ -73,7 +77,7 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
      *
      * @return SearchResult associated to user <code>userName</code>.
      */
-    private SearchResult internalGetUser(String attribute, String value) {
+    private SearchResult internalGetUser(String attribute, String value) throws Exception {
         SearchResult result = null;
         try {
             String usernameAttribute = ldapProperties.getProperty(attribute);
@@ -83,8 +87,9 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
                 result = answer.next();
             }
         } catch (Exception e) {
-            System.out.println(
-                    "Unknown error searching " + attribute + " = " + value + " in LDAP server: " + e.getMessage());
+            String msg = "Unknown error searching " + attribute + " = " + value + " in LDAP server: " + e.getMessage();
+            log.error(msg, e);
+            throw new Exception(msg, e);
         }
         return result;
     }
@@ -278,7 +283,8 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
         String memberOfKey = ldapProperties.getProperty(LDAP_MEMBEROF_ATTRIBUTE);
 
         if (memberOfKey == null) {
-            throw new Exception("You need define " + LDAP_MEMBEROF_ATTRIBUTE + " property to execute method getUsersByRol(...)");
+            throw new Exception(
+                    "You need define " + LDAP_MEMBEROF_ATTRIBUTE + " property to execute method getUsersByRol(...)");
         }
 
         String prefix = ldapProperties.getProperty(PREFIX_ROLE_MATCH_MEMBEROF);
