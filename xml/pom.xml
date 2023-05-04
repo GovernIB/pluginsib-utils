@@ -67,12 +67,12 @@
       <type>jar</type>
     </dependency>
     
-    <dependency>
+    <!--dependency>
         <groupId>es.caib.scsp</groupId>
         <artifactId>SCDCPAJUv3-schemas-xsd</artifactId>
         <version>1.0.0</version>
         <scope>test</scope>
-    </dependency>
+    </dependency-->
     
   </dependencies>
   <build>
