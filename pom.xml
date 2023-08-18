@@ -17,6 +17,7 @@
     <module>commons</module>
     <!--	   <module>discoverplugins</module>	   -->
     <module>templateengine</module>
+    <module>rest</module>
   </modules>
   <repositories>
     <repository>
