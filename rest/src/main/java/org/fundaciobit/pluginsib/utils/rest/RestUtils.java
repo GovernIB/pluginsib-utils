@@ -23,6 +23,8 @@ import org.apache.commons.lang3.time.DateUtils;
 public class RestUtils {
 
     public static final String MIME_APPLICATION_JSON = "application/json";
+    
+    public static final String MIME_APPLICATION_PDF = "application/pdf";
 
     public static String convertToDateTimeToISO8601(Date dateToConvert) {
 
