@@ -35,7 +35,7 @@ public class RestUtils {
         LocalDateTime ldt = Instant.ofEpochMilli(dateToConvert.getTime()).atZone(ZoneId.systemDefault())
                 .truncatedTo(ChronoUnit.SECONDS).toLocalDateTime();
 
-        return ldt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        return ldt.format(DateTimeFormatter.ISO_LOCAL_DATE);
 
     }
 
