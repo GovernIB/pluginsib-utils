@@ -3,12 +3,17 @@ package org.fundaciobit.pluginsib.utils.rest;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.SignStyle;
+import java.time.temporal.ChronoField;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.ws.rs.core.Response.Status;
 
@@ -23,7 +28,7 @@ import org.apache.commons.lang3.time.DateUtils;
 public class RestUtils {
 
     public static final String MIME_APPLICATION_JSON = "application/json";
-    
+
     public static final String MIME_APPLICATION_PDF = "application/pdf";
 
     public static String convertToDateTimeToISO8601(Date dateToConvert) {
@@ -32,14 +37,38 @@ public class RestUtils {
             return null;
         }
 
-        LocalDateTime ldt = Instant.ofEpochMilli(dateToConvert.getTime()).atZone(ZoneId.systemDefault())
-                .truncatedTo(ChronoUnit.SECONDS).toLocalDateTime();
+        /*
+        LocalDateTime ldt = Instant.ofEpochMilli(dateToConvert.getTime())
+                 .atZone(ZoneOffset.UTC)
+                .truncatedTo(ChronoUnit.SECONDS)
+                   .toLocalDateTime(); 
+        
+        return ldt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "Z";
+        
+        */
 
-        return ldt.format(DateTimeFormatter.ISO_LOCAL_DATE);
+        DateTimeFormatter parser = new DateTimeFormatterBuilder().appendValue(ChronoField.YEAR, 4, 4, SignStyle.NEVER)
+                .appendPattern("-MM-dd'T'HH:mm:ssXXX").toFormatter(Locale.getDefault());
+
+        OffsetDateTime odt2 = dateToConvert.toInstant().atOffset(ZoneOffset.UTC);
+
+        return parser.format(odt2);
 
     }
 
+    /**
+     * 
+     * @param inputDate
+     * @param paramName
+     * @return
+     * @throws RestException
+     * @deprecate use {@link #parseOnlyDate(String, String)}
+     */
     public static Date parseDate(final String inputDate, final String paramName) throws RestException {
+        return parseOnlyDate(inputDate, paramName);
+    }
+
+    public static Date parseOnlyDate(final String inputDate, final String paramName) throws RestException {
         Date dateStart;
         if (StringUtils.isBlank(inputDate)) {
             dateStart = null;
@@ -88,9 +117,9 @@ public class RestUtils {
         final Date[] dates;
         {
 
-            Date dateStart = parseDate(dataIniciRequest, dataIniciRequestLabel);
+            Date dateStart = parseOnlyDate(dataIniciRequest, dataIniciRequestLabel);
 
-            Date dateEnd = parseDate(dataFiRequest, dataFiRequestLabel);
+            Date dateEnd = parseOnlyDate(dataFiRequest, dataFiRequestLabel);
 
             if (dateStart == null) {
                 Calendar cal = Calendar.getInstance();
@@ -128,13 +157,43 @@ public class RestUtils {
         return dates;
     }
 
+    public static String formatOffsetDateTimeToLocalTime(OffsetDateTime odt) {
+
+        if (odt == null) {
+            return null;
+        }
+
+        return odt.atZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime().toString();
+    }
+
     public static void main(String[] args) {
         try {
 
-            System.out.println(convertToDateTimeToISO8601(new Date()));
+            Date date = new Date();
 
-            Date date = parseDate("2023-02-23", "prova");
-            System.out.println(date);
+            String dateStr = convertToDateTimeToISO8601(date);
+            System.out.println("convertToDateTimeToISO8601 => " + dateStr);
+
+            //
+
+            //System.out.println(odt.toZonedDateTime().toString());
+
+            {
+
+                // If you want a LocalDateTime, you can get it from `odt`
+                /*
+                OffsetDateTime odt = OffsetDateTime.parse(dateStr);
+                LocalDateTime ldt = odt.toLocalDateTime();
+                */
+                //OffsetDateTime odt = OffsetDateTime.now();
+                OffsetDateTime odt = OffsetDateTime.parse(dateStr);
+                System.out.println("OffsetDateTime => " + odt);
+
+                System.out.println("Data Local -> " + odt.atZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime());
+            }
+
+            Date dateOrig = parseDate("2023-02-23", "prova");
+            System.out.println(dateOrig);
 
             //            date = parseDate("12-02-2023", "prova");
             //            System.err.println(date);
