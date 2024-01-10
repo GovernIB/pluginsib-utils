@@ -53,7 +53,7 @@
             <version>2.1.13</version>
             <scope>provided</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -64,24 +64,19 @@
             <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
-<!--
+
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <scope>provided</scope>
-        </dependency>-->
-        
-                <dependency>
-    <groupId>com.fasterxml.jackson.jaxrs</groupId>
-    <artifactId>jackson-jaxrs-json-provider</artifactId>
-<scope>provided</scope>
-</dependency>
-        
+            <artifactId>genapp-core</artifactId>
+            <groupId>org.fundaciobit.genapp</groupId>
+            <version>2.0.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>
