@@ -30,21 +30,15 @@ public class RestUtils {
 
     public static final String MIME_APPLICATION_PDF = "application/pdf";
 
+    public static final String DATE_PATTERN_ISO8601_ONLYDATE = "^(?:[1-9]\\d{3}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1\\d|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[1-9]\\d(?:0[48]|[2468][048]|[13579][26])|(?:[2468][048]|[13579][26])00)-02-29))$";
+
+    public static final String DATE_PATTERN_ISO8601_DATE_AND_TIME = "^(?:[1-9]\\d{3}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1\\d|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[1-9]\\d(?:0[48]|[2468][048]|[13579][26])|(?:[2468][048]|[13579][26])00)-02-29)T(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:Z|[+-][01]\\d:[0-5]\\d)$";
+
     public static String convertToDateTimeToISO8601(Date dateToConvert) {
 
         if (dateToConvert == null) {
             return null;
         }
-
-        /*
-        LocalDateTime ldt = Instant.ofEpochMilli(dateToConvert.getTime())
-                 .atZone(ZoneOffset.UTC)
-                .truncatedTo(ChronoUnit.SECONDS)
-                   .toLocalDateTime(); 
-        
-        return ldt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "Z";
-        
-        */
 
         DateTimeFormatter parser = new DateTimeFormatterBuilder().appendValue(ChronoField.YEAR, 4, 4, SignStyle.NEVER)
                 .appendPattern("-MM-dd'T'HH:mm:ssXXX").toFormatter(Locale.getDefault());
@@ -102,17 +96,23 @@ public class RestUtils {
         return language;
     }
 
+    @Deprecated
+    public static Date[] checkRangeOfOnlyDates(final String dataIniciRequest, final String dataIniciRequestLabel,
+            final String dataFiRequest, final String dataFiRequestLabel) {
+        return checkRangeOfOnlyDates(dataIniciRequest, dataIniciRequestLabel, dataFiRequest, dataFiRequestLabel, "ca");
+    }
+
     /**
      * 
      * @param dataIniciRequest Format ISO-8601 => yyyy-MM-dd
      * @param dataIniciRequestLabel Nom del parametre dataIniciRequest
      * @param dataFiRequest Format ISO-8601 => yyyy-MM-dd
      * @param dataFiRequestLabel Nom del parametre dataFiRequest
-     * @return
+     * @param language Idioma del missatge d'error
+     * @return Array de dates on [0] és datestart i [1] es dateend
      */
     public static Date[] checkRangeOfOnlyDates(final String dataIniciRequest, final String dataIniciRequestLabel,
-
-            final String dataFiRequest, final String dataFiRequestLabel) {
+            final String dataFiRequest, final String dataFiRequestLabel, String language) {
         final Date[] dates;
         {
 
@@ -120,35 +120,20 @@ public class RestUtils {
 
             Date dateEnd = parseOnlyDate(dataFiRequest, dataFiRequestLabel);
 
-            if (dateStart == null) {
-                Calendar cal = Calendar.getInstance();
-                if (dateEnd == null) {
-                    dateEnd = cal.getTime();
-                } else {
-                    cal.setTime(dateEnd);
-                }
-                cal.add(Calendar.MONTH, -1);
-                dateStart = cal.getTime();
-            } else {
-                Calendar cal = Calendar.getInstance();
-                if (dateEnd == null) {
-                    cal.setTime(dateStart);
-                    cal.add(Calendar.MONTH, +1);
-                    dateEnd = cal.getTime();
-                } else {
-                    // OK Cap dels dos és null
-                }
-            }
-
             // Comprovar que la data d'inici és anterior a la de final
+            if (dateStart != null && dateEnd != null) {
+                if (dateStart.getTime() >= dateEnd.getTime()) {
+                    final String msg;
+                    if ("es".equals(language)) {
+                       msg = "La fecha de inicio debe ser menor que la fecha de fin (" + dataIniciRequest + " | "
+                            + dataFiRequest + ")";
+                    } else {
+                        msg = "La data d'inici ha de ser menor que la data de fi (" + dataIniciRequest + " | "
+                                + dataFiRequest + ")";
+                    }
 
-            if (dateStart.getTime() >= dateEnd.getTime()) {
-                // XYZ ZZZ Traduccio
-                final String msg = "La data d'inici ha de ser menor que la data de fi (" + dataIniciRequest + " | "
-                        + dataFiRequest + ")";
-
-                throw new RestException(msg, Status.BAD_REQUEST);
-
+                    throw new RestException(msg, Status.BAD_REQUEST);
+                }
             }
 
             dates = new Date[] { dateStart, dateEnd };

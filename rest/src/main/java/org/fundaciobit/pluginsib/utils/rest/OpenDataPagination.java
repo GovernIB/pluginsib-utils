@@ -3,6 +3,7 @@ package org.fundaciobit.pluginsib.utils.rest;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -12,11 +13,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
  *
  * @param <D>
  */
+@JsonPropertyOrder({ "page", "pagesize", "totalpages", "totalcount", "itemsReturned", "nextUrl", "dateDownload",
+        "data" })
 @Schema(description = "Estructura de dades utilitzada per retornar informació paginada de Dades Obertes")
 public abstract class OpenDataPagination<D> extends AbstractPagination<D> {
 
     @Schema(required = true, description = "Elements retornats")
-    @JsonProperty("resultat")
+    @JsonProperty("data")
     protected List<D> data;
 
     @Schema(required = true, description = "Número pàgina. Comença per 1.")
@@ -31,7 +34,7 @@ public abstract class OpenDataPagination<D> extends AbstractPagination<D> {
     @JsonProperty("total-pages")
     protected int totalpages;
 
-    @Schema(required = true,  description = "Numero total d'elements")
+    @Schema(required = true, description = "Numero total d'elements")
     @JsonProperty("total-count")
     protected int totalcount;
 
@@ -39,11 +42,16 @@ public abstract class OpenDataPagination<D> extends AbstractPagination<D> {
     @JsonProperty("items-returned")
     protected int itemsReturned;
 
-    @Schema(required = false, description = "Si hi ha més elements, llavors retorna la URL a la següent pàgina de dades.")
+    @Schema(
+            required = false,
+            description = "Si hi ha més elements, llavors retorna la URL a la següent pàgina de dades.")
     @JsonProperty("next")
     protected String nextUrl;
 
-    @Schema(required = true, description = "Data en que s'han retornat les dades")
+    @Schema(
+            required = true,
+            pattern = RestUtils.DATE_PATTERN_ISO8601_DATE_AND_TIME,
+            description = "Data i hora en que s'han retornat les dades. Format ISO-8601")
     @JsonProperty("date-download")
     protected String dateDownload;
 
@@ -51,7 +59,8 @@ public abstract class OpenDataPagination<D> extends AbstractPagination<D> {
         super();
     }
 
-    public OpenDataPagination(List<D> data, int page, int pagesize, int totalpages, int totalcount, String nextUrl, String dateDownload) {
+    public OpenDataPagination(List<D> data, int page, int pagesize, int totalpages, int totalcount, String nextUrl,
+            String dateDownload) {
         super();
         this.data = data;
         this.page = page;
@@ -60,7 +69,7 @@ public abstract class OpenDataPagination<D> extends AbstractPagination<D> {
         this.totalcount = totalcount;
         this.nextUrl = nextUrl;
         this.dateDownload = dateDownload;
-        this.itemsReturned = this.data==null? 0 : this.data.size();
+        this.itemsReturned = this.data == null ? 0 : this.data.size();
     }
 
     @Override
@@ -101,7 +110,7 @@ public abstract class OpenDataPagination<D> extends AbstractPagination<D> {
     @Override
     public void setData(List<D> data) {
         this.data = data;
-        this.itemsReturned = this.data==null? 0 : this.data.size();
+        this.itemsReturned = this.data == null ? 0 : this.data.size();
     }
 
     @Override

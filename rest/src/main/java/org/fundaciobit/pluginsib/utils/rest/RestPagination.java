@@ -2,6 +2,8 @@ package org.fundaciobit.pluginsib.utils.rest;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
@@ -10,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  *
  * @param <D>
  */
+@JsonPropertyOrder({ "page", "pagesize", "totalpages", "totalcount", "data" })
 @Schema(description = "Estructura de dades utilitzada per passar informació paginada d'un llistat")
 public abstract class RestPagination<D> extends AbstractPagination<D> {
 
