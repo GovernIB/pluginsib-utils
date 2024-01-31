@@ -27,7 +27,7 @@ public class ISO8601DateTimeSerializer extends JsonSerializer<Date> {
         if (date == null) {
             jgen.writeNull();
         } else {
-            String s = RestUtils.convertToDateTimeToISO8601(date);
+            String s = RestUtils.convertDateToDateTimeISO8601(date);
             jgen.writeString(s);
         }
 

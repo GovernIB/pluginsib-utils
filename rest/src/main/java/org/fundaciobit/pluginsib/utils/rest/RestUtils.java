@@ -2,6 +2,7 @@ package org.fundaciobit.pluginsib.utils.rest;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -34,7 +35,27 @@ public class RestUtils {
 
     public static final String DATE_PATTERN_ISO8601_DATE_AND_TIME = "^(?:[1-9]\\d{3}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1\\d|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[1-9]\\d(?:0[48]|[2468][048]|[13579][26])|(?:[2468][048]|[13579][26])00)-02-29)T(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:Z|[+-][01]\\d:[0-5]\\d)$";
 
+    public static String convertDateToOnlyDateISO8601(Date dateToConvert) {
+
+        if (dateToConvert == null) {
+            return null;
+        }
+
+        DateTimeFormatter parser = new DateTimeFormatterBuilder().appendValue(ChronoField.YEAR, 4, 4, SignStyle.NEVER)
+                .appendPattern("-MM-dd").toFormatter(Locale.getDefault());
+
+        OffsetDateTime odt2 = dateToConvert.toInstant().atOffset(ZoneOffset.UTC);
+
+        return parser.format(odt2);
+
+    }
+
+    @Deprecated
     public static String convertToDateTimeToISO8601(Date dateToConvert) {
+        return convertDateToDateTimeISO8601(dateToConvert);
+    }
+
+    public static String convertDateToDateTimeISO8601(Date dateToConvert) {
 
         if (dateToConvert == null) {
             return null;
@@ -57,33 +78,70 @@ public class RestUtils {
      * @throws RestException
      * @deprecate use {@link #parseOnlyDate(String, String)}
      */
+    @Deprecated
     public static Date parseDate(final String inputDate, final String paramName) throws RestException {
-        return parseOnlyDate(inputDate, paramName);
+        return parseOnlyDateISO8601ToDate(inputDate, paramName, "ca");
     }
 
+    @Deprecated
     public static Date parseOnlyDate(final String inputDate, final String paramName) throws RestException {
-        Date dateStart;
+        return parseOnlyDateISO8601ToDate(inputDate, paramName, "ca");
+    }
+
+    public static Date parseOnlyDateISO8601ToDate(final String inputDate, final String paramName, String language)
+            throws RestException {
+        Date date;
         if (StringUtils.isBlank(inputDate)) {
-            dateStart = null;
+            date = null;
         } else {
 
             try {
 
                 LocalDate myLocalDate = LocalDate.parse(inputDate);
 
-                ZonedDateTime zdt = myLocalDate.atStartOfDay(ZoneId.systemDefault());
+                ZonedDateTime zdt = myLocalDate.atStartOfDay(ZoneOffset.UTC);
 
                 Instant instant = zdt.toInstant();
-                dateStart = java.util.Date.from(instant);
+                date = java.util.Date.from(instant);
 
             } catch (Throwable pe) {
-                final String msg = "Error en el format del paràmetre de tipus date amb nom " + paramName + ": "
+                final String msg = "Error en el format  (" + inputDate + ") del paràmetre de tipus date amb nom " + paramName + ": "
                         + pe.getMessage();
                 throw new RestException(msg, pe, Status.BAD_REQUEST);
             }
         }
-        return dateStart;
+        return date;
     }
+    
+    
+    
+    public static Date parseDateTimeISO8601ToDate(final String inputDate, final String paramName, String language)
+            throws RestException {
+        Date date;
+        if (StringUtils.isBlank(inputDate)) {
+            date = null;
+        } else {
+
+            try {
+
+                LocalDateTime myLocalDate = LocalDateTime.parse(inputDate, DateTimeFormatter.ISO_DATE_TIME);
+                
+                date = Date.from(myLocalDate.atZone(ZoneOffset.UTC).toInstant());
+//ZoneId.systemDefault()
+                
+ 
+            } catch (Throwable pe) {
+                final String msg = "Error en el format (" + inputDate + ") del paràmetre de tipus date amb nom " + paramName + ": "
+                        + pe.getMessage();
+                throw new RestException(msg, pe, Status.BAD_REQUEST);
+            }
+        }
+        return date;
+    }
+    
+    
+    
+    
 
     public static String checkLanguage(String language) {
         if (StringUtils.isBlank(language)) {
@@ -125,8 +183,8 @@ public class RestUtils {
                 if (dateStart.getTime() >= dateEnd.getTime()) {
                     final String msg;
                     if ("es".equals(language)) {
-                       msg = "La fecha de inicio debe ser menor que la fecha de fin (" + dataIniciRequest + " | "
-                            + dataFiRequest + ")";
+                        msg = "La fecha de inicio debe ser menor que la fecha de fin (" + dataIniciRequest + " | "
+                                + dataFiRequest + ")";
                     } else {
                         msg = "La data d'inici ha de ser menor que la data de fi (" + dataIniciRequest + " | "
                                 + dataFiRequest + ")";
@@ -150,43 +208,6 @@ public class RestUtils {
         return odt.atZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime().toString();
     }
 
-    public static void main(String[] args) {
-        try {
-
-            Date date = new Date();
-
-            String dateStr = convertToDateTimeToISO8601(date);
-            System.out.println("convertToDateTimeToISO8601 => " + dateStr);
-
-            //
-
-            //System.out.println(odt.toZonedDateTime().toString());
-
-            {
-
-                // If you want a LocalDateTime, you can get it from `odt`
-                /*
-                OffsetDateTime odt = OffsetDateTime.parse(dateStr);
-                LocalDateTime ldt = odt.toLocalDateTime();
-                */
-                //OffsetDateTime odt = OffsetDateTime.now();
-                OffsetDateTime odt = OffsetDateTime.parse(dateStr);
-                System.out.println("OffsetDateTime => " + odt);
-
-                System.out.println("Data Local -> " + odt.atZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime());
-            }
-
-            Date dateOrig = parseDate("2023-02-23", "prova");
-            System.out.println(dateOrig);
-
-            //            date = parseDate("12-02-2023", "prova");
-            //            System.err.println(date);
-
-        } catch (Throwable th) {
-            th.printStackTrace(System.err);
-        }
-        System.out.println("FINAL");
-    }
 
     public static Date atEndOfDay(final Date date) {
         return DateUtils.addMilliseconds(DateUtils.ceiling(date, Calendar.DAY_OF_MONTH), -1);

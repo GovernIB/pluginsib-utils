@@ -32,7 +32,7 @@ public class ISO8601TimestampSerializer extends JsonSerializer<Timestamp> {
         if (date == null) {
             gen.writeNull();
         } else {
-            String s = RestUtils.convertToDateTimeToISO8601(new Date(date.getTime()));
+            String s = RestUtils.convertDateToDateTimeISO8601(new Date(date.getTime()));
             
             log.info("\n\n\n ISO8601TimestampSerializer serialize(Timestamp: " + date + " => " + s +  ")  \n\n\n");
             gen.writeString(s);
