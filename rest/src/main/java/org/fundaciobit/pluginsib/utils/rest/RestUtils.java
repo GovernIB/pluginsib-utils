@@ -96,25 +96,25 @@ public class RestUtils {
         } else {
 
             try {
-
                 LocalDate myLocalDate = LocalDate.parse(inputDate);
-
                 ZonedDateTime zdt = myLocalDate.atStartOfDay(ZoneOffset.UTC);
-
                 Instant instant = zdt.toInstant();
                 date = java.util.Date.from(instant);
-
             } catch (Throwable pe) {
-                final String msg = "Error en el format  (" + inputDate + ") del paràmetre de tipus date amb nom " + paramName + ": "
-                        + pe.getMessage();
+                final String msg;
+                if ("es".equalsIgnoreCase(language)) {
+                    msg = "Error en el formato (" + inputDate + ") del parametre de tipo fecha con nombre " + paramName
+                            + ": " + pe.getMessage();
+                } else {
+                    msg = "Error en el format (" + inputDate + ") del paràmetre de tipus data amb nom " + paramName
+                            + ": " + pe.getMessage();
+                }
                 throw new RestException(msg, pe, Status.BAD_REQUEST);
             }
         }
         return date;
     }
-    
-    
-    
+
     public static Date parseDateTimeISO8601ToDate(final String inputDate, final String paramName, String language)
             throws RestException {
         Date date;
@@ -123,25 +123,22 @@ public class RestUtils {
         } else {
 
             try {
-
                 LocalDateTime myLocalDate = LocalDateTime.parse(inputDate, DateTimeFormatter.ISO_DATE_TIME);
-                
                 date = Date.from(myLocalDate.atZone(ZoneOffset.UTC).toInstant());
-//ZoneId.systemDefault()
-                
- 
             } catch (Throwable pe) {
-                final String msg = "Error en el format (" + inputDate + ") del paràmetre de tipus date amb nom " + paramName + ": "
-                        + pe.getMessage();
+                final String msg;
+                if ("es".equalsIgnoreCase(language)) {
+                    msg = "Error en el formato (" + inputDate + ") del parametre de tipo fecha con nombre " + paramName
+                            + ": " + pe.getMessage();
+                } else {
+                    msg = "Error en el format (" + inputDate + ") del paràmetre de tipus data amb nom " + paramName
+                            + ": " + pe.getMessage();
+                }
                 throw new RestException(msg, pe, Status.BAD_REQUEST);
             }
         }
         return date;
     }
-    
-    
-    
-    
 
     public static String checkLanguage(String language) {
         if (StringUtils.isBlank(language)) {
@@ -174,9 +171,9 @@ public class RestUtils {
         final Date[] dates;
         {
 
-            Date dateStart = parseOnlyDate(dataIniciRequest, dataIniciRequestLabel);
+            Date dateStart = parseOnlyDateISO8601ToDate(dataIniciRequest, dataIniciRequestLabel, language);
 
-            Date dateEnd = parseOnlyDate(dataFiRequest, dataFiRequestLabel);
+            Date dateEnd = parseOnlyDateISO8601ToDate(dataFiRequest, dataFiRequestLabel, language);
 
             // Comprovar que la data d'inici és anterior a la de final
             if (dateStart != null && dateEnd != null) {
@@ -207,7 +204,6 @@ public class RestUtils {
 
         return odt.atZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime().toString();
     }
-
 
     public static Date atEndOfDay(final Date date) {
         return DateUtils.addMilliseconds(DateUtils.ceiling(date, Calendar.DAY_OF_MONTH), -1);

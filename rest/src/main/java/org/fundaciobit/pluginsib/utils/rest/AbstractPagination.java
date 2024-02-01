@@ -7,7 +7,7 @@ import java.util.List;
  * @author anadal
  *
  */
-public abstract class AbstractPagination<D> {
+public interface AbstractPagination<D> {
 
     public abstract int getPagesize();
 

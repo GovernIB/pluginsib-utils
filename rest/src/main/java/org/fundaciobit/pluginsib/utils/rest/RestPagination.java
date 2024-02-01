@@ -14,7 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 @JsonPropertyOrder({ "page", "pagesize", "totalpages", "totalcount", "data" })
 @Schema(description = "Estructura de dades utilitzada per passar informació paginada d'un llistat")
-public abstract class RestPagination<D> extends AbstractPagination<D> {
+public abstract class RestPagination<D> implements AbstractPagination<D> {
 
     @Schema(required = true, description = "Mida de pàgina")
     protected int pagesize;
