@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @JsonPropertyOrder({ "name", "page", "pagesize", "totalpages", "totalcount", "itemsReturned", "nextUrl", "dateDownload",
         "data" })
 @Schema(description = "Estructura de dades utilitzada per retornar un llistat de d'elements de informació paginada")
-public class ReuseDataPagination<D> extends ReuseDataAllElements<D> implements AbstractPagination<D> {
+public abstract class ReuseDataPagination<D> extends ReuseDataAllElements<D> implements AbstractPagination<D> {
 
     @Schema(required = true, description = "Número pàgina. Comença per 1.")
     @JsonProperty("page")
@@ -52,7 +52,7 @@ public class ReuseDataPagination<D> extends ReuseDataAllElements<D> implements A
         this.pagesize = pagesize;
         this.totalpages = totalpages;
         this.totalcount = totalcount;
-        this.nextUrl = nextUrl;
+        this.nextUrl = (this.page >= this.totalpages)?null:nextUrl;
         this.dateDownload = dateDownload;
         this.itemsReturned = this.data == null ? 0 : this.data.size();
         this.name = name;

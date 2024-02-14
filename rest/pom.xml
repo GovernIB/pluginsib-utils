@@ -75,6 +75,7 @@
             <artifactId>genapp-core</artifactId>
             <groupId>org.fundaciobit.genapp</groupId>
             <version>2.0.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
 
 

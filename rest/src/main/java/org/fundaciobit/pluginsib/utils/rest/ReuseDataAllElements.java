@@ -6,10 +6,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-
+/**
+ * 
+ * @author anadal
+ *
+ * @param <D>
+ */
 @JsonPropertyOrder({ "name", "totalcount", "dateDownload", "data" })
 @Schema(description = "Estructura de dades utilitzada per retornar un llistat de informació completa sense paginar")
-public class ReuseDataAllElements<D> {
+public abstract class ReuseDataAllElements<D> {
 
     @Schema(
             required = false,
