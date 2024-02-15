@@ -131,51 +131,29 @@ public class GenAppRestUtils {
     }
 
 
+    
     /**
-     * 
-     * @param <D>
-     * @param <P>
-     * @param classe
-     * @param ejb
-     * @param page
-     * @param pagesize
-     * @param w
-     * @param orderBy
-     * @return
-     * @throws I18NException 
-     * ****
+     *  
+      * 
+      * @param dataIniciRequest Format ISO-8601 => yyyy-MM-dd
+      * @param dataIniciRequestLabel Nom del parametre dataIniciRequest
+      * @param dataIniciField
+      * @param dataFiRequest Format ISO-8601 => yyyy-MM-dd
+      * @param dataFiRequestLabel Nom del parametre dataFiRequest
+      * @param dataFiField
+      * @param language Idioma del missatge d'error
+      * @return Array de dates on [0] és datestart i [1] es dateend
+     * @throws RestException
      */
-    /*
-    public static <D extends IGenAppEntity, P extends AbstractPagination<D>> P createRestPagination(Class<P> classe,
-            ITableManager<D, Long> ejb, int page, int pagesize, Where w, OrderBy orderBy) throws I18NException {
-
-        final int firstResult = (page - 1) * pagesize;
-        final int maxResults = pagesize;
-        final List<D> llistat = ejb.select(w, null, firstResult, maxResults, orderBy);
-
-        long countTotal = ejb.count(w);
-
-        // PAGINACIO
-        final int pageSizeOutput = pagesize;
-        final int pageOutput = page;
-        final int totalPages = (int) (countTotal / pagesize) + ((countTotal % pagesize == 0) ? 0 : 1);
-
-        P paginacio;
-        try {
-            paginacio = classe.getConstructor().newInstance();
-        } catch (Throwable e) {
-            String msg = "Error instanciant un objecte de la classe " + classe + ": " + e.getMessage();
-            log.error(msg, e);
-            throw new I18NException("genapp.comodi", msg);
-        }
-        paginacio.setPagesize(pageSizeOutput);
-        paginacio.setPage(pageOutput);
-        paginacio.setTotalpages(totalPages);
-        paginacio.setTotalcount((int) countTotal);
-        paginacio.setData(llistat);
-        return paginacio;
-    }
-    */
+     public static <T extends Date> GenAppRangeOfDates checkRangeOfOnlyDates(final String dataIniciRequest,
+             final String dataIniciRequestLabel, final String dataFiRequest, final String dataFiRequestLabel,
+             final Field<T> dataField, String language) throws RestException {
+         /*return checkRangeOfOnlyDates(dataIniciRequest,
+                 dataIniciRequestLabel,  dataFiRequest, dataFiRequestLabel,
+                 dataField, null , language); */
+         return new CheckRangeOfOnlyDates<T>().checkRangeOfOnlyDates(dataIniciRequest, dataIniciRequestLabel,
+                 dataFiRequest, dataFiRequestLabel, dataField, null, language);
+     }
 
     /**
     *  
@@ -227,14 +205,22 @@ public class GenAppRestUtils {
 
             Where w = null;
             if (startDate != null) {
-                w = dataField.greaterThanOrEqual(createFromDate(startDate));
-                nextQuery.append("&" + dataIniciRequestLabel + "=" + dataIniciRequest);
+                if (dataField != null) {
+                  w = dataField.greaterThanOrEqual(createFromDate(startDate));
+                }
+                if (nextQuery != null) {
+                  nextQuery.append("&" + dataIniciRequestLabel + "=" + dataIniciRequest);
+                }
             }
 
             if (endDate != null) {
-                Where ed = dataField.lessThanOrEqual(createFromDate(endDate));
-                w = (w == null) ? ed : Where.AND(w, ed);
-                nextQuery.append("&" + dataFiRequestLabel + "=" + dataFiRequest);
+                if (dataField != null) {
+                  Where ed = dataField.lessThanOrEqual(createFromDate(endDate));
+                  w = (w == null) ? ed : Where.AND(w, ed);
+                }
+                if (nextQuery != null) {
+                  nextQuery.append("&" + dataFiRequestLabel + "=" + dataFiRequest);
+                }
             }
 
             return new GenAppRangeOfDates(startDate, endDate, w);
