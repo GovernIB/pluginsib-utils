@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * 
  * @author anadal
@@ -14,13 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 @JsonPropertyOrder({ "name", "totalcount", "dateDownload", "data" })
 @Schema(description = "Estructura de dades utilitzada per retornar un llistat de informació completa sense paginar")
-public abstract class ReuseDataAllElements<D> {
-
-    @Schema(
-            required = false,
-            description = "Elements retornats. Pot retornar un null o una llista bida si no hi ha elements.")
-    @JsonProperty("data")
-    protected List<D> data;
+public abstract class ReuseDataAllElements<D> extends RestAllElements<D> {
 
     @Schema(required = true, description = "Número total d'elements")
     @JsonProperty("total-count")
@@ -42,19 +37,10 @@ public abstract class ReuseDataAllElements<D> {
     }
 
     public ReuseDataAllElements(List<D> data, int totalcount, String dateDownload, String name) {
-        super();
-        this.data = data;
+        super(data);
         this.totalcount = totalcount;
         this.dateDownload = dateDownload;
         this.name = name;
-    }
-
-    public List<D> getData() {
-        return data;
-    }
-
-    public void setData(List<D> data) {
-        this.data = data;
     }
 
     public int getTotalcount() {
