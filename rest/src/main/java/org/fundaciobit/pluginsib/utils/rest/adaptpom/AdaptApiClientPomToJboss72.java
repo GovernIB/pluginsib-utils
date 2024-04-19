@@ -231,6 +231,25 @@ public class AdaptApiClientPomToJboss72 {
             // =====================================================
             { "<source>1.8</source>", "" },
             { "<target>1.8</target>", "" },
+            
+            // ====================================================
+            { "            <plugin>\n"
+                    + "                <groupId>org.apache.maven.plugins</groupId>\n"
+                    + "                <artifactId>maven-javadoc-plugin</artifactId>\n"
+                    + "                <version>3.3.2</version>\n"
+                    + "                <configuration>\n"
+                    + "                    <doclint>none</doclint>\n"
+                    + "                    \n"
+                    + "                </configuration>\n"
+                    + "                <executions>\n"
+                    + "                    <execution>\n"
+                    + "                        <id>attach-javadocs</id>\n"
+                    + "                        <goals>\n"
+                    + "                            <goal>jar</goal>\n"
+                    + "                        </goals>\n"
+                    + "                    </execution>\n"
+                    + "                </executions>\n"
+                    + "            </plugin>" , "" },
             // =====================================================
             { "    <properties>\n", "    <properties>\n"
                     + "        <!-- NOU -->\n"
@@ -249,6 +268,37 @@ public class AdaptApiClientPomToJboss72 {
             { "<version>${resteasy-version}</version>", "<!-- NOU <version>${resteasy-version}</version> -->" },
             { "<version>${jackson-databind-version}</version>", "<!-- NOU ${jackson-databind-version} -->" },
             { "<version>3.0.2</version>", "<version>1.3.9</version><!-- NOU  -->" },
+            { "<goal>test-jar</goal>" , "<!-- NOU <goal>test-jar</goal> -->" },
+            // =====================================================
+            { "Unlicense", "European Union Public Licence (EUPL v1.2)" },
+            // =====================================================
+            {"            <plugin>\n"
+                    + "                <artifactId>maven-dependency-plugin</artifactId>\n"
+                    + "                <executions>\n"
+                    + "                    <execution>\n"
+                    + "                        <phase>package</phase>\n"
+                    + "                        <goals>\n"
+                    + "                            <goal>copy-dependencies</goal>\n"
+                    + "                        </goals>\n"
+                    + "                        <configuration>\n"
+                    + "                            <outputDirectory>${project.build.directory}/lib</outputDirectory>\n"
+                    + "                        </configuration>\n"
+                    + "                    </execution>\n"
+                    + "                </executions>\n"
+                    + "            </plugin>", "" },
+            // ====================================================
+            { "                    <execution>\n"
+                    + "                        <id>add_test_sources</id>\n"
+                    + "                        <phase>generate-test-sources</phase>\n"
+                    + "                        <goals>\n"
+                    + "                            <goal>add-test-source</goal>\n"
+                    + "                        </goals>\n"
+                    + "                        <configuration>\n"
+                    + "                            <sources>\n"
+                    + "                                <source>src/test/java</source>\n"
+                    + "                            </sources>\n"
+                    + "                        </configuration>\n"
+                    + "                    </execution>", "" },
             // =====================================================
             { "    </build>\n"
                     + "    <dependencies>", "    </build>\n"
