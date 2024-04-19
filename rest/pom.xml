@@ -14,6 +14,7 @@
         <!-- Versions de JBoss -->
         <jboss-eap.version>7.2.6.GA</jboss-eap.version>
         <jboss-javaee.version>1.0.1.Final-redhat-00003</jboss-javaee.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <repositories>
         <repository>
