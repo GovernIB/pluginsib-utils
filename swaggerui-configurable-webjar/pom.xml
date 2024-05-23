@@ -2,28 +2,25 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <parent>
         <groupId>org.fundaciobit.pluginsib.utils</groupId>
-        <version>2.0.1</version>
+        <version>3.0.0-SNAPSHOT</version>
         <artifactId>pluginsib-utils</artifactId>
     </parent>
 
-    <groupId>org.webjars</groupId>
-    <artifactId>swager-ui-configurable</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <artifactId>pluginsib-utils-swager-ui-configurable-webjar</artifactId>
     <packaging>jar</packaging>
 
     <name>PluginsIB - Utils - Swagger UI Configurable WebJar</name>
-    <description>Swagger UI configurable from /swaggeruiurls.json file. Format file: [{"url": "./openapi_public.json","name": "Exemple Public"},{"url": "./openapi_secure.json","name": "Exemple Seguretat"}] </description>
+    <description>Swagger UI configurable from /swaggeruiurls.json file. Format
+        file: [{"url": "./openapi_public.json","name": "Exemple Public"},{"url":
+        "./openapi_secure.json","name": "Exemple Seguretat"}] </description>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <maven.compiler.release>11</maven.compiler.release>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <destDir>${project.build.outputDirectory}/META-INF/resources</destDir>
-        <!-- La darrera versió disponible: https://github.com/swagger-api/swagger-ui/releases -->
+        <!-- La darrera versió disponible:
+        https://github.com/swagger-api/swagger-ui/releases -->
     </properties>
 
     <build>

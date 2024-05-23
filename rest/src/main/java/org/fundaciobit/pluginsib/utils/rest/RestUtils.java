@@ -50,10 +50,7 @@ public class RestUtils {
 
     }
 
-    @Deprecated
-    public static String convertToDateTimeToISO8601(Date dateToConvert) {
-        return convertDateToDateTimeISO8601(dateToConvert);
-    }
+
 
     public static String convertDateToDateTimeISO8601(Date dateToConvert) {
 
@@ -70,23 +67,7 @@ public class RestUtils {
 
     }
 
-    /**
-     * 
-     * @param inputDate
-     * @param paramName
-     * @return
-     * @throws RestException
-     * @deprecate use {@link #parseOnlyDate(String, String)}
-     */
-    @Deprecated
-    public static Date parseDate(final String inputDate, final String paramName) throws RestException {
-        return parseOnlyDateISO8601ToDate(inputDate, paramName, "ca");
-    }
 
-    @Deprecated
-    public static Date parseOnlyDate(final String inputDate, final String paramName) throws RestException {
-        return parseOnlyDateISO8601ToDate(inputDate, paramName, "ca");
-    }
 
     public static Date parseOnlyDateISO8601ToDate(final String inputDate, final String paramName, String language)
             throws RestException {
@@ -151,11 +132,6 @@ public class RestUtils {
         return language;
     }
 
-    @Deprecated
-    public static Date[] checkRangeOfOnlyDates(final String dataIniciRequest, final String dataIniciRequestLabel,
-            final String dataFiRequest, final String dataFiRequestLabel) {
-        return checkRangeOfOnlyDates(dataIniciRequest, dataIniciRequestLabel, dataFiRequest, dataFiRequestLabel, "ca");
-    }
 
     /**
      * 

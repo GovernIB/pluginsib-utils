@@ -2,7 +2,7 @@ package org.fundaciobit.pluginsib.utils.cxf.test;
 
 import java.io.InputStream;
 
-import org.fundaciobit.pluginsib.core.utils.FileUtils;
+import org.fundaciobit.pluginsib.core.v3.utils.FileUtils;
 import org.fundaciobit.pluginsib.utils.cxf.CXFUtils;
 
 /**

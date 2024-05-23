@@ -58,34 +58,6 @@ public class RestException extends WebApplicationException {
         return Response.status(info.getCode()).entity(info).build();
     }
 
-    /**
-     * 
-     * @return
-     * @deprecated Use {{@link #getRestExceptionInfo()}
-     */
-    public OpenApiExceptionInfo getOpenApiExceptionInfo() {
-
-        OpenApiExceptionInfo info = new OpenApiExceptionInfo();
-
-        info.setCode(super.getResponse().getStatus());
-        info.setErrorMessage(this.getMessage());
-
-        if (exportStackTrace) {
-            info.setStackTrace(ExceptionUtils.getStackTrace(this));
-        }
-
-        Throwable cause = this.getCause();
-
-        if (cause != null && exportCause) {
-            info.setCauseException(cause.getClass().getName());
-            if (exportStackTrace) {
-                info.setCauseStackTrace(ExceptionUtils.getStackTrace(cause));
-            }
-        }
-
-        return info;
-
-    }
     
     
     public RestExceptionInfo getRestExceptionInfo() {

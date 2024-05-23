@@ -3,30 +3,31 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>pluginsib-utils-discoverplugins</artifactId>
+    <artifactId>pluginsib-utils-webutils</artifactId>
     <packaging>jar</packaging>
-    <name>PluginsIB - Utils - DiscoverPlugins</name>
+    <name>PluginsIB - Utils - WebUtils</name>
     <parent>
         <groupId>org.fundaciobit.pluginsib.utils</groupId>
         <version>3.0.0-SNAPSHOT</version>
         <artifactId>pluginsib-utils</artifactId>
     </parent>
-    <url>http://maven.apache.org</url>
     <dependencies>
         <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-            <version>0.10.2</version>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.2.2</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava-base</artifactId>
-            <version>r03</version>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava-collections</artifactId>
-            <version>r03</version>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.fundaciobit.pluginsib.core.v3</groupId>

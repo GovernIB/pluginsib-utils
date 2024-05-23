@@ -10,9 +10,9 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
-import org.apache.ws.security.WSConstants;
-import org.apache.ws.security.WSPasswordCallback;
-import org.apache.ws.security.handler.WSHandlerConstants;
+import org.apache.wss4j.common.ext.WSPasswordCallback;
+import org.apache.wss4j.dom.WSConstants;
+import org.apache.wss4j.dom.handler.WSHandlerConstants;
 
 /**
  * 
@@ -57,7 +57,7 @@ public class ClientHandlerUsernamePassword extends ClientHandler {
 
     outProps.put(WSHandlerConstants.MUST_UNDERSTAND, "false");
 
-    outProps.put(WSHandlerConstants.ADD_UT_ELEMENTS, WSConstants.NONCE_LN + " "
+    outProps.put(WSHandlerConstants.ADD_USERNAMETOKEN_NONCE, WSConstants.NONCE_LN + " "
         + WSConstants.CREATED_LN);
 
     outProps.put("addUsernameTokenNonce", "true");

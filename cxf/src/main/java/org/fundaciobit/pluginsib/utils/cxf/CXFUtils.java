@@ -5,13 +5,14 @@ import java.nio.charset.Charset;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.log4j.Logger;
-import org.fundaciobit.pluginsib.core.utils.AbstractPluginProperties;
+import org.fundaciobit.pluginsib.core.v3.utils.AbstractPluginProperties;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
  * 
@@ -87,7 +88,9 @@ public class CXFUtils {
 
       try {
 
-          XMLReader reader = XMLReaderFactory.createXMLReader();
+          SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+          SAXParser parser = parserFactory.newSAXParser();
+          XMLReader reader = parser.getXMLReader();
           InputSource is = new InputSource(new StringReader(inXMLStr.replace('ñ', 'n')));
           reader.parse(is);
 

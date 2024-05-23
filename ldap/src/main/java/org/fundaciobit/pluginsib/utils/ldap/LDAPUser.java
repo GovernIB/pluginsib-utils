@@ -6,7 +6,7 @@ import java.util.Arrays;
  * Information about a LDAP user.
  * 
  * @author anadal
- * @version 1.0
+ *
  */
 public class LDAPUser implements Comparable<LDAPUser>, Cloneable {
 
@@ -206,8 +206,7 @@ public class LDAPUser implements Comparable<LDAPUser>, Cloneable {
             throw new InternalError("Failed to clone a User instance");
         }
     }
-    
-    
+
     public static String getFullName(LDAPUser u) {
         return u.getName() + " " + getCorrectSurname(u);
     }
