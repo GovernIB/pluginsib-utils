@@ -6,6 +6,27 @@
     <artifactId>pluginsib-utils</artifactId>
     <packaging>pom</packaging>
     <name>PluginsIB - Utils</name>
+    <parent>
+        <artifactId>
+            caib-artifacts-github-governib-distribution-with-jdk11-jboss72</artifactId>
+        <groupId>es.caib.maven</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    
+    <developers>
+        <developer>
+            <id>anadal-fundaciobit</id>
+            <name>Antoni Nadal</name>
+        </developer>
+    </developers>
+
+    <organization>
+        <name>Fundació Bit - Govern Digital</name>
+        <url>https://governdigital.fundaciobit.org</url>
+    </organization>
+
+    <inceptionYear>2014</inceptionYear>
+    
     <licenses>
         <license>
             <name>European Union Public Licence (EUPL v1.2)</name>
@@ -26,94 +47,19 @@
         <module>ssl</module>
         <module>ws</module>
     </modules>
-    <properties>
-        <!-- Versions de JBoss -->
-        <jboss-eap.version>7.2.6.GA</jboss-eap.version>
-        <jboss-javaee.version>1.0.1.Final-redhat-00003</jboss-javaee.version>
-        <!-- Propietats que afecten els plugins -->
-        <maven.compiler.release>11</maven.compiler.release>
-        <maven.compiler.target>11</maven.compiler.target>
-        <maven.compiler.source>11</maven.compiler.source>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- No fer els tests per defecte. -->
-        <!-- <maven.test.skip>true</maven.test.skip> -->
-    </properties>
     <repositories>
-        <repository>
-            <id>maven-nuxeo</id>
-            <name>Maven Nuxeo Repository</name>
-            <url>https://maven.nuxeo.org/nexus/content/groups/public/</url>
-            <layout>default</layout>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-        </repository>
         <repository>
             <id>github-governib-maven-repos</id>
             <name>GitHub GovernIB Maven Repository</name>
             <url>https://governib.github.io/maven/maven/</url>
         </repository>
         <repository>
-            <id>jboss-releases</id>
-            <name>JBoss Releases Repository</name>
-            <url>
-                https://repository.jboss.org/nexus/content/repositories/releases/</url>
-            <releases>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>jboss-thirdparty-releases</id>
-            <name>JBoss 3rd-party Repository</name>
-            <url>
-                https://repository.jboss.org/nexus/content/repositories/thirdparty-releases/</url>
-            <releases>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-        </repository>
-        <repository>
             <id>codelds</id>
             <url>https://code.lds.org/nexus/content/groups/main-repo</url>
-        </repository>
-        <repository>
-            <id>redhat-repository</id>
-            <name>Redhat Repository</name>
-            <url>https://maven.repository.redhat.com/ga/</url>
         </repository>
     </repositories>
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.jboss.bom</groupId>
-                <artifactId>eap-runtime-artifacts</artifactId>
-                <version>${jboss-eap.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.bom</groupId>
-                <artifactId>jboss-eap-javaee8-with-tools</artifactId>
-                <version>${jboss-eap.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-8.0</artifactId>
-                <version>${jboss-javaee.version}</version>
-                <type>pom</type>
-            </dependency>
             <dependency>
                 <groupId>org.fundaciobit.pluginsib.core.v3</groupId>
                 <artifactId>pluginsib-core</artifactId>
@@ -121,121 +67,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.8.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
-    <build>
-        <pluginManagement>
-            <plugins>
-                <!-- Definició dels plugins estàndar de maven -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
-                    <configuration>
-                        <source>11</source>
-                        <target>11</target>
-                        <encoding>UTF-8</encoding>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.2.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <configuration>
-                        <encoding>UTF-8</encoding>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        <plugins>
-            <!-- Gestió de requisits del build -->
-            <!-- Veure: https://maven.apache.org/enforcer/enforcer-rules/index.html -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0-M3</version>
-                <configuration>
-                    <rules>
-                        <requireMavenVersion>
-                            <version>3.6.1</version>
-                        </requireMavenVersion>
-                        <requireJavaVersion>
-                            <version>11</version>
-                        </requireJavaVersion>
-                        <banDuplicatePomDependencyVersions/>
-                        <dependencyConvergence/>
-                    </rules>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.8.1</version>
-                <configuration>
-                    <altDeploymentRepository>
-                        internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.github.github</groupId>
-                <artifactId>site-maven-plugin</artifactId>
-                <version>0.12</version>
-                <configuration>
-                    <!-- git commit message -->
-                    <message>Maven artifacts for ${project.version}</message>
-                    <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
-                    <noJekyll>true</noJekyll>
-                    <!-- remote branch name -->
-                    <branch>refs/heads/gh-pages</branch>
-                    <includes>
-                        <include>**/*</include>
-                    </includes>
-                    <path>maven</path>
-                    <!-- github repo name -->
-                    <repositoryName>maven</repositoryName>
-                    <!-- github username or organization  -->
-                    <repositoryOwner>GovernIB</repositoryOwner>
-                    <server>github_governib_maven</server>
-                    <merge>true</merge>
-                    <dryRun>false</dryRun>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>site</goal>
-                        </goals>
-                        <phase>deploy</phase>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-    <distributionManagement>
-        <repository>
-            <id>github_governib_maven</id>
-            <name>GitHub GovernIB Maven Repository</name>
-            <url>file://${project.build.directory}/mvn-repo</url>
-        </repository>
-    </distributionManagement>
+    
 </project>

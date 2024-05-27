@@ -18,7 +18,9 @@ import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
+
+
 
 /**
  * LDAP User Manager
