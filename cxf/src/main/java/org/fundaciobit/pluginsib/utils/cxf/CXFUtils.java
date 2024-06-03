@@ -8,7 +8,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-
 import org.fundaciobit.pluginsib.core.v3.utils.AbstractPluginProperties;
 import org.jboss.logging.Logger;
 import org.w3c.dom.Document;
@@ -21,120 +20,117 @@ import org.xml.sax.XMLReader;
  *
  */
 public class CXFUtils {
-  
-  protected static Logger log = Logger.getLogger(CXFUtils.class);
-  
-  public static final Charset UTF_8 = Charset.forName("UTF-8");
 
-  public static boolean isXMLFormat(byte[] data) {
+    protected static Logger log = Logger.getLogger(CXFUtils.class);
 
-    if (isBinaryFile(data)) {
-      //log.info("\n\n XYZ ZZZ ES BINARY FILE \n\n");
-    } else {
+    public static final Charset UTF_8 = Charset.forName("UTF-8");
 
-      boolean isXML = isXMLLike(new String(data, UTF_8));
+    public static boolean isXMLFormat(byte[] data) {
 
-      // System.out.println("isXML = " + isXML);
-      if (isXML) {
-        return true;
-      }
+        if (isBinaryFile(data)) {
+            //log.info("\n\n XYZ ZZZ ES BINARY FILE \n\n");
+        } else {
 
-    }
-    return false;
-  }
+            boolean isXML = isXMLLike(new String(data, UTF_8));
 
-  public static boolean isBinaryFile(byte[] data) {
+            // System.out.println("isXML = " + isXML);
+            if (isXML) {
+                return true;
+            }
 
-    int size = data.length;
-    if (size > 1024)
-      size = 1024;
-
-    int ascii = 0;
-    int other = 0;
-
-    for (int i = 0; i < size; i++) {
-      byte b = data[i];
-      if (b < 0x09)
-        return true;
-
-      if (b == 0x09 || b == 0x0A || b == 0x0C || b == 0x0D)
-        ascii++;
-      else if (b >= 0x20 && b <= 0x7E)
-        ascii++;
-      else
-        other++;
+        }
+        return false;
     }
 
-    if (other == 0)
-      return false;
-    return 100 * other / (ascii + other) > 95;
-  }
+    public static boolean isBinaryFile(byte[] data) {
 
-  protected static boolean isXMLLike(String inXMLStr) {
+        int size = data.length;
+        if (size > 1024)
+            size = 1024;
 
-    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-    DocumentBuilder db = null;
-    try {
-      db = dbf.newDocumentBuilder();
-      InputSource is = new InputSource(new StringReader(inXMLStr.replace('ñ', 'n')));
+        int ascii = 0;
+        int other = 0;
 
-      Document doc = db.parse(is);
+        for (int i = 0; i < size; i++) {
+            byte b = data[i];
+            if (b < 0x09)
+                return true;
 
-      doc.getDocumentElement().getTextContent();
-      
-      return true;
-    } catch (Throwable e1) {
-      // handle ParserConfigurationException 
-      e1.printStackTrace();
+            if (b == 0x09 || b == 0x0A || b == 0x0C || b == 0x0D)
+                ascii++;
+            else if (b >= 0x20 && b <= 0x7E)
+                ascii++;
+            else
+                other++;
+        }
 
-      try {
-
-          SAXParserFactory parserFactory = SAXParserFactory.newInstance();
-          SAXParser parser = parserFactory.newSAXParser();
-          XMLReader reader = parser.getXMLReader();
-          InputSource is = new InputSource(new StringReader(inXMLStr.replace('ñ', 'n')));
-          reader.parse(is);
-
-          return true;
-
-      } catch (Exception e) {
-
-        e.printStackTrace();
-
-      } 
-      
-      
-      
-      return false;
+        if (other == 0)
+            return false;
+        return 100 * other / (ascii + other) > 95;
     }
 
-  }
-  
+    protected static boolean isXMLLike(String inXMLStr) {
 
-  public static ClientHandler getClientHandler(AbstractPluginProperties properties, 
-      String basePath) throws Exception {
-    
-    final ClientHandler clientHandler;
-    String username = properties.getProperty(basePath + "authorization.username");
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = null;
+        try {
+            db = dbf.newDocumentBuilder();
+            InputSource is = new InputSource(new StringReader(inXMLStr.replace('ñ', 'n')));
 
-    if (username != null && username.trim().length() != 0) {
-      String password = properties.getProperty(basePath + "authorization.password");
+            Document doc = db.parse(is);
 
-      clientHandler = new ClientHandlerUsernamePassword(username, password);
+            doc.getDocumentElement().getTextContent();
 
-    } else {
+            return true;
+        } catch (Throwable e1) {
+            // handle ParserConfigurationException 
+            e1.printStackTrace();
 
-      String keystoreLocation = properties.getPropertyRequired(basePath + "authorization.ks.path");
+            try {
 
-      String keystoreType = properties.getPropertyRequired(basePath + "authorization.ks.type");
-      String keystorePassword = properties.getPropertyRequired(basePath + "authorization.ks.password");
-      String keystoreCertAlias = properties.getPropertyRequired(basePath + "authorization.ks.cert.alias");
-      String keystoreCertPassword = properties.getPropertyRequired(basePath + "authorization.ks.cert.password");
+                SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+                SAXParser parser = parserFactory.newSAXParser();
+                XMLReader reader = parser.getXMLReader();
+                InputSource is = new InputSource(new StringReader(inXMLStr.replace('ñ', 'n')));
+                reader.parse(is);
 
-      clientHandler = new ClientHandlerCertificate(keystoreLocation, keystoreType,
-          keystorePassword, keystoreCertAlias, keystoreCertPassword);
+                return true;
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+
+            }
+
+            return false;
+        }
+
     }
-    return clientHandler;
-  }
+
+    public static ClientHandler getClientHandler(AbstractPluginProperties properties, String basePath)
+            throws Exception {
+
+        final ClientHandler clientHandler;
+        String username = properties.getProperty(basePath + "authorization.username");
+
+        if (username != null && username.trim().length() != 0) {
+            String password = properties.getProperty(basePath + "authorization.password");
+
+            clientHandler = new ClientHandlerUsernamePassword(username, password);
+
+        } else {
+
+            String keystoreLocation = properties.getPropertyRequired(basePath + "authorization.ks.path");
+
+            String keystoreType = properties.getPropertyRequired(basePath + "authorization.ks.type");
+            String keystorePassword = properties.getPropertyRequired(basePath + "authorization.ks.password");
+            String keystoreCertAlias = properties.getPropertyRequired(basePath + "authorization.ks.cert.alias");
+            String keystoreCertPassword = properties.getPropertyRequired(basePath + "authorization.ks.cert.password");
+
+            clientHandler = new ClientHandlerCertificate(keystoreLocation, keystoreType, keystorePassword,
+                    keystoreCertAlias, keystoreCertPassword);
+        }
+        return clientHandler;
+    }
 
 }

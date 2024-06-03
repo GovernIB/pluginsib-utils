@@ -12,19 +12,19 @@ import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
  */
 public abstract class ClientHandler {
 
-  public final void addSecureHeader(Object api) {
-    // @firma no suporta. Veure https://github.com/GovernIB/pluginsib/issues/3
-    Client client = ClientProxy.getClient(api);
-    {
-      HTTPConduit conduit = (HTTPConduit) client.getConduit();
-      HTTPClientPolicy policy = new HTTPClientPolicy();
-      policy.setAllowChunking(false);
-      conduit.setClient(policy);
+    public final void addSecureHeader(Object api) {
+        // @firma no suporta. Veure https://github.com/GovernIB/pluginsib/issues/3
+        Client client = ClientProxy.getClient(api);
+        {
+            HTTPConduit conduit = (HTTPConduit) client.getConduit();
+            HTTPClientPolicy policy = new HTTPClientPolicy();
+            policy.setAllowChunking(false);
+            conduit.setClient(policy);
+        }
+
+        internalAddSecureHeader(api);
     }
 
-    internalAddSecureHeader(api);
-  }
-
-  protected abstract void internalAddSecureHeader(Object api);
+    protected abstract void internalAddSecureHeader(Object api);
 
 }
