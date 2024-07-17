@@ -9,7 +9,7 @@
         <artifactId>pluginsib-utils</artifactId>
     </parent>
 
-    <artifactId>pluginsib-utils-swager-ui-configurable-webjar</artifactId>
+    <artifactId>pluginsib-utils-swagger-ui-configurable-webjar</artifactId>
     <packaging>jar</packaging>
 
     <name>PluginsIB - Utils - Swagger UI Configurable WebJar</name>
