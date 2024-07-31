@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.fundaciobit.pluginsib.utils</groupId>
     <version>3.0.0-SNAPSHOT</version>
@@ -7,12 +8,11 @@
     <packaging>pom</packaging>
     <name>PluginsIB - Utils</name>
     <parent>
-        <artifactId>
-            caib-artifacts-github-governib-distribution-with-jdk11-jboss72</artifactId>
+        <artifactId>caib-artifacts-github-governib-distribution-with-jdk11-jboss72</artifactId>
         <groupId>es.caib.maven</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    
+
     <developers>
         <developer>
             <id>anadal-fundaciobit</id>
@@ -26,7 +26,7 @@
     </organization>
 
     <inceptionYear>2014</inceptionYear>
-    
+
     <licenses>
         <license>
             <name>European Union Public Licence (EUPL v1.2)</name>
@@ -52,10 +52,26 @@
             <id>github-governib-maven-repos</id>
             <name>GitHub GovernIB Maven Repository</name>
             <url>https://governib.github.io/maven/maven/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
         </repository>
         <repository>
             <id>codelds</id>
             <url>https://code.lds.org/nexus/content/groups/main-repo</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
         </repository>
     </repositories>
     <dependencyManagement>
@@ -67,5 +83,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    
+
 </project>
