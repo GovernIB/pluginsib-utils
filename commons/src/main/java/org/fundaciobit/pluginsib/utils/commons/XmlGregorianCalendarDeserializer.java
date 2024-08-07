@@ -16,16 +16,12 @@
 package org.fundaciobit.pluginsib.utils.commons;
 
 import java.lang.reflect.Type;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import java.sql.Timestamp;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -33,13 +29,12 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *
  * @author gdeignacio
  */
-public class XmlGregorianCalendarDeserializer implements JsonDeserializer<XMLGregorianCalendar>  {
+public class XmlGregorianCalendarDeserializer implements JsonDeserializer<XMLGregorianCalendar> {
 
     @Override
     public XMLGregorianCalendar deserialize(JsonElement jsonElement, Type type,
             JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
 
-        
         try {
             return DatatypeFactory.newInstance().newXMLGregorianCalendar(jsonElement.getAsString());
         } catch (Exception ex) {

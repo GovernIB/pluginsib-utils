@@ -15,36 +15,19 @@
  */
 package org.fundaciobit.pluginsib.utils.commons;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLConnection;
-import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.mail.util.ByteArrayDataSource;
-import org.apache.commons.io.IOUtils;
 
 /**
  *
  * @author gdeignacio
  */
-
-
-
 public class FileSystemUtils {
 
     protected static final Logger LOG = Logger.getLogger(FileSystemUtils.class.getName());
 
-    private static Path convert2Path() {
+    protected static Path convert2Path() {
         return convert2Path(System.getProperty("user.home"));
     }
 
