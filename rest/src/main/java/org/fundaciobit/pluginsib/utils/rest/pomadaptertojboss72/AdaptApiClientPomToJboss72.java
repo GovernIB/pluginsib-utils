@@ -235,7 +235,7 @@ public class AdaptApiClientPomToJboss72 {
             // =====================================================
             { "    <properties>\n",
                     "    <properties>\n" + "        <!-- NOU -->\n"
-                            + "        <jboss-eap.version>7.2.6.GA</jboss-eap.version>\n"
+                            + "        <jboss-eap.version>7.2.0.GA</jboss-eap.version>\n"
                             + "        <maven.compiler.release>11</maven.compiler.release>\n"
                             + "        <maven.compiler.target>11</maven.compiler.target>\n"
                             + "        <maven.compiler.source>11</maven.compiler.source>" },
