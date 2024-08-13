@@ -23,31 +23,42 @@
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>2.1.13</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
+            <exclusions>
+                <!-- Utilitzar versió JBOSS -->
+                <exclusion>
+                    <artifactId>javax.annotation-api</artifactId>
+                    <groupId>javax.annotation</groupId>
+                </exclusion>
+
+            </exclusions>
         </dependency>
+
+        <!-- Dependència excluida de  org.apache.commons:commons-lang3 -->
+        <dependency>
+          <groupId>org.jboss.spec.javax.annotation</groupId>
+          <artifactId>jboss-annotations-api_1.3_spec</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>org.jboss.spec.javax.ws.rs</groupId>
             <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-json-provider</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <artifactId>genapp-core</artifactId>
             <groupId>org.fundaciobit.genapp</groupId>
             <version>2.0.0-SNAPSHOT</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -64,12 +75,6 @@
             </exclusions>
         </dependency>
 
-        <!-- Problemes amb enforcer -->
-        <dependency>
-            <artifactId>javax.annotation-api</artifactId>
-            <groupId>javax.annotation</groupId>
-            <version>1.3.2</version>
-        </dependency>
 
     </dependencies>
 
