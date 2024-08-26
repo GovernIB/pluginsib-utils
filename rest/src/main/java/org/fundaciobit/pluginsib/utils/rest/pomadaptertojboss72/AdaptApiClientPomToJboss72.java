@@ -125,7 +125,15 @@ public class AdaptApiClientPomToJboss72 {
 
     protected static String doReplaces(String content) {
         for (String[] replace : REPLACES) {
-            content = content.replace(replace[0], replace[1]);
+            
+            String replaceWith = replace[1];
+            
+            if (replaceWith == null) {
+                replaceWith = "<!-- NOU " + replace[0] + " -->";
+            }
+            
+            
+            content = content.replace(replace[0], replaceWith);
         }
         return content;
     }
@@ -161,7 +169,7 @@ public class AdaptApiClientPomToJboss72 {
         sc.useDelimiter("\\Z");
         String content = sc.next();
         sc.close();
-        content = content.replace("\r\n", "\n");
+        content = content.replace("\n", "\n");
         return content;
     }
 
@@ -175,6 +183,7 @@ public class AdaptApiClientPomToJboss72 {
 
     public static String[][] REPLACES = {
             { "</developers>", "</developers>\n" + "\n" + "\n" + "    <!-- NOU -->\n" + "    <repositories>\n"
+    /*
                     + "        <repository>\n" + "            <id>jboss-releases</id>\n"
                     + "            <name>JBoss Releases Repository</name>\n" + "            <url>\n"
                     + "                https://repository.jboss.org/nexus/content/repositories/releases/</url>\n"
@@ -193,8 +202,22 @@ public class AdaptApiClientPomToJboss72 {
                     + "            <dependency>\n" + "                <groupId>org.jboss.bom</groupId>\n"
                     + "                <artifactId>jboss-eap-javaee8-with-tools</artifactId>\n"
                     + "                <version>${jboss-eap.version}</version>\n" + "                <type>pom</type>\n"
-                    + "                <scope>import</scope>\n" + "            </dependency>\n"
-                    + "        </dependencies>\n" + "    </dependencyManagement>" },
+                    + "                <scope>import</scope>\n" + "            </dependency>\n"*/
+                    + "        <repository>\n"
+                    + "            <id>github-governib-maven-repos</id>\n"
+                    + "            <name>GitHub GovernIB Maven Repository</name>\n"
+                    + "            <url>https://governib.github.io/maven/maven/</url>\n"
+                    + "            <snapshots>\n"
+                    + "                <enabled>true</enabled>\n"
+                    + "                <updatePolicy>daily</updatePolicy>\n"
+                    + "            </snapshots>\n"
+                    + "            <releases>\n"
+                    + "                <enabled>true</enabled>\n"
+                    + "                <updatePolicy>never</updatePolicy>\n"
+                    + "            </releases>\n"
+                    + "        </repository>\n"
+                    + "    </repositories>\n" },
+                    //+ "        </dependencies>\n" + "    </dependencyManagement>" },
             // =====================================================        
             { "<plugins>\n", "<plugins>\n" + "            <!-- NOU -->\n" + "            <!--" },
             // =====================================================
@@ -203,7 +226,8 @@ public class AdaptApiClientPomToJboss72 {
                     "-->\n" + "\n" + "            <!-- NOU -->\n" + "            <plugin>\n"
                             + "                <groupId>org.apache.maven.plugins</groupId>\n"
                             + "                <artifactId>maven-enforcer-plugin</artifactId>\n"
-                            + "                <version>3.0.0-M3</version>\n" + "                <configuration>\n"
+                            //+ "                <version>3.0.0-M3</version>\n"
+                            + "                <configuration>\n"
                             + "                    <rules>\n" + "                        <requireMavenVersion>\n"
                             + "                            <version>3.6.1</version>\n"
                             + "                        </requireMavenVersion>\n"
@@ -217,7 +241,8 @@ public class AdaptApiClientPomToJboss72 {
                             + "                            <goal>enforce</goal>\n"
                             + "                        </goals>\n" + "                    </execution>\n"
                             + "                </executions>\n" + "            </plugin>\n" + "\n" + "\n"
-                            + "            <plugin>\n" + "                <groupId>org.apache.maven.plugins</groupId>\n"
+                            + "            <plugin>\n"
+                            + "                <groupId>org.apache.maven.plugins</groupId>\n"
                             + "                <artifactId>maven-surefire-plugin</artifactId>" },
             // =====================================================
             { "<source>1.8</source>", "" }, { "<target>1.8</target>", "" },
@@ -233,15 +258,11 @@ public class AdaptApiClientPomToJboss72 {
                     + "                        </goals>\n" + "                    </execution>\n"
                     + "                </executions>\n" + "            </plugin>", "" },
             // =====================================================
-            { "    <properties>\n",
-                    "    <properties>\n" + "        <!-- NOU -->\n"
-                            + "        <jboss-eap.version>7.2.0.GA</jboss-eap.version>\n"
-                            + "        <maven.compiler.release>11</maven.compiler.release>\n"
-                            + "        <maven.compiler.target>11</maven.compiler.target>\n"
-                            + "        <maven.compiler.source>11</maven.compiler.source>" },
+            { "<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>",
+                    "<!-- NOU <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> -->" },
             // =====================================================
             { "<resteasy-version>4.7.6.Final</resteasy-version>",
-                    "<!-- NOU <resteasy-version>4.7.6.Final</resteasy-version>-->\n" },
+                    "<!-- NOU <resteasy-version>4.7.6.Final</resteasy-version> -->\n" },
             { "<jackson-version>2.15.2</jackson-version>", "<!-- NOU <jackson-version>2.15.2</jackson-version>-->" },
             { "<junit-version>4.13</junit-version>", "<!-- NOU <junit-version>4.13</junit-version>-->" },
             // =====================================================
@@ -249,12 +270,13 @@ public class AdaptApiClientPomToJboss72 {
             { "<version>${jackson-version}</version>", "<!-- NOU <version>${jackson-version}</version> -->" },
             { "<version>${resteasy-version}</version>", "<!-- NOU <version>${resteasy-version}</version> -->" },
             { "<version>${jackson-databind-version}</version>", "<!-- NOU ${jackson-databind-version} -->" },
-            { "<version>3.0.2</version>", "<version>1.3.9</version><!-- NOU  -->" },
-            { "<goal>test-jar</goal>", "<!-- NOU <goal>test-jar</goal> -->" },
+            //{ "<version>3.0.2</version>", "<version>1.3.9</version><!-- NOU  -->" },
+            //{ "<goal>test-jar</goal>", "<!-- NOU <goal>test-jar</goal> -->" },
             // =====================================================
             { "Unlicense", "European Union Public Licence (EUPL v1.2)" },
             // =====================================================
-            { "            <plugin>\n" + "                <artifactId>maven-dependency-plugin</artifactId>\n"
+            { "            <plugin>\n"
+                    + "                <artifactId>maven-dependency-plugin</artifactId>\n"
                     + "                <executions>\n" + "                    <execution>\n"
                     + "                        <phase>package</phase>\n" + "                        <goals>\n"
                     + "                            <goal>copy-dependencies</goal>\n"
@@ -284,7 +306,8 @@ public class AdaptApiClientPomToJboss72 {
             // =====================================================
             { "        </plugins>", "           <!-- NOU -->\n" + "            <plugin>\n"
                     + "                <artifactId>maven-deploy-plugin</artifactId>\n"
-                    + "                <version>2.8.2</version>\n" + "                <configuration>\n"
+                    //+ "                <version>2.8.2</version>\n"
+                    + "                <configuration>\n"
                     + "                    <altDeploymentRepository>\n"
                     + "                        internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>\n"
                     + "                </configuration>\n" + "            </plugin>\n" + "            <!-- NOU -->\n"
@@ -309,6 +332,159 @@ public class AdaptApiClientPomToJboss72 {
                     + "                            <goal>site</goal>\n" + "                        </goals>\n"
                     + "                        <phase>deploy</phase>\n" + "                    </execution>\n"
                     + "                </executions>\n" + "            </plugin>\n" + "        </plugins>" },
+            // =====================================================
+                    {"    <scm>\n"
+                    + "        <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>\n"
+                    + "        <developerConnection>scm:git:git@github.com:openapitools/openapi-generator.git</developerConnection>\n"
+                    + "        <url>https://github.com/openapitools/openapi-generator</url>\n"
+                    + "    </scm>" , "    <!-- NOU\n"
+                    + "    <scm>\n"
+                    + "        <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>\n"
+                    + "        <developerConnection>scm:git:git@github.com:openapitools/openapi-generator.git</developerConnection>\n"
+                    + "        <url>https://github.com/openapitools/openapi-generator</url>\n"
+                    + "    </scm>\n"
+                    + "    -->\n"
+                    + "    \n"
+                    + "    <!-- NOU -->\n"
+                    + "    <parent>\n"
+                    + "        <artifactId>caib-artifacts-github-governib-distribution-with-jdk11-jboss72</artifactId>\n"
+                    + "        <groupId>es.caib.maven</groupId>\n"
+                    + "        <version>1.0.0-SNAPSHOT</version>\n"
+                    + "        <relativePath></relativePath>\n"
+                    + "    </parent>" },
+            // =====================================================
+            {         "            <plugin>\n"
+                    + "                <groupId>org.apache.maven.plugins</groupId>\n"
+                    + "                <artifactId>maven-compiler-plugin</artifactId>\n"
+                    + "                <version>2.5.1</version>\n"
+                    + "                <configuration>\n"
+                    + "                   \n"
+                    + "                   \n"
+                    + "                </configuration>\n"
+                    + "            </plugin>",
+                      "            <!-- NOU -->    \n"
+                    + "            <!--\n"
+                    + "            <plugin>\n"
+                    + "                <groupId>org.apache.maven.plugins</groupId>\n"
+                    + "                <artifactId>maven-compiler-plugin</artifactId>\n"
+                    + "                <version>2.5.1</version>\n"
+                    + "                <configuration>\n"
+                    + "                </configuration>\n"
+                    + "            </plugin>\n"
+                    + "            -->" },
+            // =====================================================            
+            {"            <plugin>\n"
+                    + "                <groupId>org.apache.maven.plugins</groupId>\n"
+                    + "                <artifactId>maven-surefire-plugin</artifactId>\n"
+                    + "                <version>2.12</version>\n"
+                    + "                <configuration>\n"
+                    + "                    <systemProperties>\n"
+                    + "                        <property>\n"
+                    + "                            <name>loggerPath</name>\n"
+                    + "                            <value>conf/log4j.properties</value>\n"
+                    + "                        </property>\n"
+                    + "                    </systemProperties>\n"
+                    + "                    <argLine>-Xms512m -Xmx1500m</argLine>\n"
+                    + "                    <parallel>methods</parallel>\n"
+                    + "                    <forkMode>pertest</forkMode>\n"
+                    + "                </configuration>\n"
+                    + "            </plugin>",
+                      "            <plugin>\n"
+                    + "                <groupId>org.apache.maven.plugins</groupId>\n"
+                    + "                <artifactId>maven-surefire-plugin</artifactId>\n"
+                    + "                <!-- NOU <version>2.12</version> -->\n"
+                    + "                <configuration>\n"
+                    + "                    <systemProperties>\n"
+                    + "                        <property>\n"
+                    + "                            <name>loggerPath</name>\n"
+                    + "                            <value>conf/log4j.properties</value>\n"
+                    + "                        </property>\n"
+                    + "                    </systemProperties>\n"
+                    + "                    <argLine>-Xms512m -Xmx1500m</argLine>\n"
+                    + "                    <parallel>methods</parallel>\n"
+                    + "                    <!-- NOU <forkMode>pertest</forkMode> -->\n"
+                    + "                </configuration>\n"
+                    + "            </plugin>"},
+            // =====================================================   
+            {"            <plugin>\n"
+                    + "                <groupId>org.apache.maven.plugins</groupId>\n"
+                    + "                <artifactId>maven-jar-plugin</artifactId>\n"
+                    + "                <version>2.6</version>\n"
+                    + "                <executions>\n"
+                    + "                    <execution>\n"
+                    + "                        <goals>\n"
+                    + "                            <goal>jar</goal>\n"
+                    + "                            <goal>test-jar</goal>\n"
+                    + "                        </goals>\n"
+                    + "                    </execution>\n"
+                    + "                </executions>\n"
+                    + "                <configuration>\n"
+                    + "                </configuration>\n"
+                    + "            </plugin>", 
+                      "            <!-- NOU -->\n"
+                    + "            <!--\n"
+                    + "            <plugin>\n"
+                    + "                <groupId>org.apache.maven.plugins</groupId>\n"
+                    + "                <artifactId>maven-jar-plugin</artifactId>\n"
+                    + "                <version>2.6</version>\n"
+                    + "                <executions>\n"
+                    + "                    <execution>\n"
+                    + "                        <goals>\n"
+                    + "                            <goal>jar</goal>\n"
+                    + "                            <goal>test-jar</goal>\n"
+                    + "                        </goals>\n"
+                    + "                    </execution>\n"
+                    + "                </executions>\n"
+                    + "                <configuration>\n"
+                    + "                </configuration>\n"
+                    + "            </plugin>\n"
+                    + "            -->"},
+
+            // =====================================================   
+            
+            {"        <dependency>\n"
+            + "            <groupId>com.github.joschi.jackson</groupId>\n"
+            + "            <artifactId>jackson-datatype-threetenbp</artifactId>\n"
+            + "            <version>${threetenbp-version}</version>\n"
+            + "        </dependency>\n"
+            + "        <dependency>\n"
+            + "            <groupId>jakarta.annotation</groupId>\n"
+            + "            <artifactId>jakarta.annotation-api</artifactId>\n"
+            + "            <version>${jakarta-annotation-version}</version>\n"
+            + "            <scope>provided</scope>\n"
+            + "        </dependency>", "        <!-- NOU -->\n"
+                    + "        <!--\n"
+                    + "        <dependency>\n"
+                    + "            <groupId>com.github.joschi.jackson</groupId>\n"
+                    + "            <artifactId>jackson-datatype-threetenbp</artifactId>\n"
+                    + "            <version>${threetenbp-version}</version>\n"
+                    + "        </dependency>\n"
+                    + "        <dependency>\n"
+                    + "            <groupId>jakarta.annotation</groupId>\n"
+                    + "            <artifactId>jakarta.annotation-api</artifactId>\n"
+                    + "            <version>${jakarta-annotation-version}</version>\n"
+                    + "            <scope>provided</scope>\n"
+                    + "        </dependency>\n"
+                    + "        -->" },
+                    
+              // =====================================================   
+              { "<jakarta-annotation-version>1.3.5</jakarta-annotation-version>", null } ,
+                      //"<!-- NOU " + "<jakarta-annotation-version>1.3.5</jakarta-annotation-version>" + " -->" },
+              // =====================================================
+              { "<threetenbp-version>2.9.10</threetenbp-version>", null } ,
+                     // "<!-- NOU " + "<threetenbp-version>2.9.10</threetenbp-version>" + " -->" },
+              // =====================================================
+              { "<maven-plugin-version>1.0.0</maven-plugin-version>", null } ,
+                          //"<!-- NOU " + "<maven-plugin-version>1.0.0</maven-plugin-version>" + " -->" },
+                    
+              // =====================================================     
+                    
+
+              { "        <dependency>\n"
+                      + "            <groupId>com.google.code.findbugs</groupId>\n"
+                      + "            <artifactId>jsr305</artifactId>\n"
+                      + "            <version>3.0.2</version>\n"
+                      + "        </dependency>" , null }
 
     };
 
