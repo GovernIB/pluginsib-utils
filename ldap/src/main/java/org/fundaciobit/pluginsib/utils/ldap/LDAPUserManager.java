@@ -192,19 +192,27 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
         }
 
         String departmentKey = ldapProperties.getProperty(LDAP_DEPARTMENT_ATTRIBUTE);
-        Attribute department = attrib.get(departmentKey);
-        if (department == null) {
+        if (departmentKey == null) {
             user.setDepartment(null);
         } else {
-            user.setDepartment((String) department.get());
+            Attribute department = attrib.get(departmentKey);
+            if (department == null) {
+                user.setDepartment(null);
+            } else {
+                user.setDepartment((String) department.get());
+            }
         }
 
         String telephoneKey = ldapProperties.getProperty(LDAP_TELEPHONE_ATTRIBUTE);
-        Attribute telephone = attrib.get(telephoneKey);
-        if (telephone == null) {
+        if (telephoneKey == null) {
             user.setTelephoneNumber(null);
         } else {
-            user.setTelephoneNumber((String) telephone.get());
+            Attribute telephone = attrib.get(telephoneKey);
+            if (telephone == null) {
+                user.setTelephoneNumber(null);
+            } else {
+                user.setTelephoneNumber((String) telephone.get());
+            }
         }
 
         String nifKey = ldapProperties.getProperty(LDAP_ADMINISTRATIONID_ATTRIBUTE);
