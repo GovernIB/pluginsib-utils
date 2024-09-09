@@ -13,6 +13,12 @@
     </parent>
     <dependencies>
         <dependency>
+            <groupId>io.github.classgraph</groupId>
+            <artifactId>classgraph</artifactId>
+            <version>4.8.158</version>
+        </dependency>
+        <!--
+        <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>0.10.2</version>
@@ -27,6 +33,7 @@
             <artifactId>guava-collections</artifactId>
             <version>r03</version>
         </dependency>
+        -->
         <dependency>
             <groupId>org.fundaciobit.pluginsib.core.v3</groupId>
             <artifactId>pluginsib-core</artifactId>

@@ -1,62 +1,77 @@
 package org.fundaciobit.pluginsib.utils.discoverplugins.test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
-import org.fundaciobit.pluginsib.utils.discoverplugins.DiscoverPlugins;
+import org.fundaciobit.pluginsib.utils.discoverplugins.DiscoverPluginsIB;
+import org.junit.Assert;
 
 /**
  * 
  * @author anadal
  * 
  */
-@TestAnnotation
+
 public class Test {
 
     @org.junit.Test
-    public void test() {
+    public void testInterface() throws Exception {
 
-        System.out.println();
+        Set<Class<? extends IExportDataPlugin>> conjunt;
+
+        conjunt = DiscoverPluginsIB.getPluginsByInterface(IExportDataPlugin.class);
+
+        Assert.assertFalse(
+                "Error llista buida: si que existeixen classes que implementen " + IExportDataPlugin.class.getName(),
+                conjunt.isEmpty());
+
+        List<Class<? extends IExportDataPlugin>> classesEsperades = new ArrayList<Class<? extends IExportDataPlugin>>();
+        classesEsperades.add(ExcelExportData.class);
+        classesEsperades.add(WordExportData.class);
+        classesEsperades.add(OdtExportData.class);
+
+        for (Class<? extends IExportDataPlugin> c : classesEsperades) {
+            Assert.assertTrue("El resultat de la cerca hauria de contenir la classe " + c.getName(),
+                    conjunt.contains(c));
+        }
+
     }
 
-    public void test1() throws Exception {
+    @org.junit.Test
+    public void testAnnotations() throws Exception {
 
-        ClassLoader[] loader = new ClassLoader[] { ClassLoader.getSystemClassLoader(),
-                Thread.currentThread().getContextClassLoader() };
-        DiscoverPlugins.classLoader = loader;
+        Set<Class<?>> conjunt;
 
-        DiscoverPlugins.searchPackages = new String[] { "es.caib" };
+        conjunt = DiscoverPluginsIB.getTypesAnnotatedWith(MicrosoftPluginAnnotation.class);
 
-        Set<Class<?>> plugins;
-        plugins = DiscoverPlugins.getTypesAnnotatedWith(TestAnnotation.class, loader);
+        List<Class<?>> classesEsperades = new ArrayList<Class<?>>();
+        classesEsperades.add(ExcelExportData.class);
+        classesEsperades.add(WordExportData.class);
 
-        if (plugins.isEmpty()) {
+        Assert.assertTrue(
+                "Existeixen " + classesEsperades.size() + " classes amb l'anotació "
+                        + MicrosoftPluginAnnotation.class.getName() + "(retornades " + conjunt.size() + ")",
+                conjunt.size() == classesEsperades.size());
 
-            System.out.println("¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿ NO HI HA ANOTACIONS");
-
-        } else {
-            for (Class<?> class1 : plugins) {
-                System.out.println("¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿ " + class1);
-            }
+        for (Class<?> c : classesEsperades) {
+            Assert.assertTrue("El resultat de la cerca hauria de contenir la classe " + c.getName(),
+                    conjunt.contains(c));
         }
+
+    }
+
+    public void testAnnotation() throws Exception {
+
     }
 
     public static void main(String[] args) {
 
         try {
 
-            Set<Class<? extends IExportDataPlugin>> conjunt;
-
-            DiscoverPlugins.searchPackages = new String[] { "org." };
-
-            conjunt = DiscoverPlugins.getPluginsByInterface(IExportDataPlugin.class);
-
-            if (conjunt.isEmpty()) {
-                System.out.println("ESTA BUIT");
-            } else {
-                for (Class<? extends IExportDataPlugin> class1 : conjunt) {
-                    System.out.println(" CLASS = " + class1.getName());
-                }
-            }
+            Test test = new Test();
+            test.testInterface();
+            test.testAnnotations();
 
         } catch (Exception e) {
             // TODO Auto-generated catch block
