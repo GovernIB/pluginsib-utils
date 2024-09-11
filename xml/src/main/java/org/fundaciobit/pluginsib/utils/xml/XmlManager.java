@@ -44,7 +44,6 @@ import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -204,6 +203,7 @@ public class XmlManager<T> {
         String xml = generateXmlString(item);
         
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        @SuppressWarnings("unused")
         DocumentBuilder db = dbf.newDocumentBuilder();
         
         Element element = null;
