@@ -148,14 +148,14 @@ public class AdaptApiClientPomToJboss72 {
             int a_start = pom_api.indexOf(artifactId, i);
             int a_end = pom_api.indexOf("</artifactId>", a_start);
 
-            //System.out.println("ArtifactId: |" + pom_api.substring(a_start + artifactId.length(), a_end) + "|" );
-            info.setArtifactId(pom_api.substring(a_start + artifactId.length(), a_end));
+            System.out.println("ArtifactId: |" + pom_api.substring(a_start + artifactId.length(), a_end) + "|" );
+            info.setArtifactId(pom_api.substring(a_start + artifactId.length(), a_end).trim());
 
             int ad_start = pom_api.indexOf("<artifactDescription>", a_end);
             int ad_end = pom_api.indexOf("</artifactDescription>", ad_start);
 
-            //System.out.println("ArtifactDescription: |" + pom_api.substring(ad_start + "<artifactDescription>".length(), ad_end) + "|\n");
-            info.setArtifactDescription(pom_api.substring(ad_start + "<artifactDescription>".length(), ad_end));
+            System.out.println("ArtifactDescription: |" + pom_api.substring(ad_start + "<artifactDescription>".length(), ad_end) + "|\n");
+            info.setArtifactDescription(pom_api.substring(ad_start + "<artifactDescription>".length(), ad_end).trim());
 
             apis.add(info);
 
