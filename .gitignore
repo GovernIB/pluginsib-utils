@@ -11,3 +11,5 @@ target/
 # Fitxers de projecte de Netbeans
 nb-configuration.xml
 nbproject/
+/ldap/connection.properties
+/ldap/ldapnou.properties

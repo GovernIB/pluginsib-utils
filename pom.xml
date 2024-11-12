@@ -46,6 +46,7 @@
         <module>xml</module>
         <module>ssl</module>
         <module>ws</module>
+        <module>signature</module>
     </modules>
     <repositories>
         <repository>
