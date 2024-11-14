@@ -1,5 +1,8 @@
 package org.fundaciobit.pluginsib.utils.signature;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 
  * @author anadal
@@ -49,6 +52,14 @@ public interface SignatureConstants {
      * https://www.w3.org/TR/2000/WD-xmldsig-core-20000510/#sec-o-Manifest
      */
     public static final int SIGN_MODE_EXTERNALLY_DETACHED = 5;
+    
+    
+    /**
+     * All Signature Modes
+     */
+    public static final int ALL_SING_MODES[] = { SIGN_MODE_ATTACHED_ENVELOPED, SIGN_MODE_ATTACHED_ENVELOPING,
+            SIGN_MODE_DETACHED, SIGN_MODE_INTERNALLY_DETACHED, SIGN_MODE_EXTERNALLY_DETACHED };
+    
 
     /**
      * ============  SIGNATURE PROFILES ============
@@ -147,4 +158,17 @@ public interface SignatureConstants {
     public static final String SIGN_ALGORITHM_SHA256 = "SHA-256";
     public static final String SIGN_ALGORITHM_SHA384 = "SHA-384";
     public static final String SIGN_ALGORITHM_SHA512 = "SHA-512";
+
+    /**
+     * =================  SIGNATURE MODES by SIGNTYPE ==================
+     */
+    public static final Map<String, Integer[]> SIGNMODES_BY_SIGNTYPE = Map.of(
+            // PAdES
+            SIGNTYPE_PAdES, new Integer[] { SIGN_MODE_ATTACHED_ENVELOPED },
+            // CAdES
+            SIGNTYPE_CAdES, new Integer[] { SIGN_MODE_ATTACHED_ENVELOPING, SIGN_MODE_DETACHED },
+            // XAdES
+            SIGNTYPE_XAdES, new Integer[] { SIGN_MODE_ATTACHED_ENVELOPED, SIGN_MODE_ATTACHED_ENVELOPING,
+                    SIGN_MODE_DETACHED, SIGN_MODE_INTERNALLY_DETACHED, SIGN_MODE_EXTERNALLY_DETACHED }
+    );
 }
