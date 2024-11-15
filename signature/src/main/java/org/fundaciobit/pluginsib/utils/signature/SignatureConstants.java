@@ -1,6 +1,5 @@
 package org.fundaciobit.pluginsib.utils.signature;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
