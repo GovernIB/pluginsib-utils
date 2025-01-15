@@ -90,7 +90,7 @@ public class RestUtils {
                     msg = "Error en el format (" + inputDate + ") del paràmetre de tipus data amb nom " + paramName
                             + ": " + pe.getMessage();
                 }
-                throw new RestException(msg, pe, Status.BAD_REQUEST);
+                throw new RestException(Status.BAD_REQUEST, msg);
             }
         }
         return date;
@@ -115,7 +115,7 @@ public class RestUtils {
                     msg = "Error en el format (" + inputDate + ") del paràmetre de tipus data amb nom " + paramName
                             + ": " + pe.getMessage();
                 }
-                throw new RestException(msg, pe, Status.BAD_REQUEST);
+                throw new RestException(Status.BAD_REQUEST, msg, pe);
             }
         }
         return date;
@@ -163,7 +163,7 @@ public class RestUtils {
                                 + dataFiRequest + ")";
                     }
 
-                    throw new RestException(msg, Status.BAD_REQUEST);
+                    throw new RestException(Status.BAD_REQUEST, msg);
                 }
             }
 

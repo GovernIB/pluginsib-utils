@@ -9,79 +9,68 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 /**
  * 
  * @author anadal
- *
+ * 13 ene 2025 12:27:26
  */
 public class RestException extends WebApplicationException {
 
     public static boolean exportStackTrace = false;
+    public static boolean exportStackTraceCause = false;
 
-    public static boolean exportCause = false;
+    protected final RestExceptionInfo info;
 
-    public RestException() {
-        super();
-
+    /**
+     * Llançarà un statuscode 500 (InternalServerError)
+     * @param errorMessage
+     */
+    public RestException(String errorMessage) {
+        this(Status.INTERNAL_SERVER_ERROR, null, errorMessage, null, null);
     }
 
-    public RestException(String message, int status) {
-        super(message, status);
-
+    public RestException(Status status, String errorMessage) {
+        this(status, null, errorMessage, null, null);
     }
 
-    public RestException(String message, Status status) {
-        super(message, status);
-
+    public RestException(Status status, String errorMessage, Throwable cause) {
+        this(status, null, errorMessage, cause, null);
     }
 
-    public RestException(String message, Throwable cause, int status) {
-        super(message, cause, status);
-
+    /**
+     * Llançarà un statuscode 500 (InternalServerError)
+     * @param errorMessage
+     * @param cause
+     */
+    public RestException(String errorMessage, Throwable cause) {
+        this(Status.INTERNAL_SERVER_ERROR, null, errorMessage, cause, null);
     }
 
-    public RestException(String message, Throwable cause, Status status) throws IllegalArgumentException {
-        super(message, cause, status);
-
+    /**
+     * Error de validació en un camp o objecte. Llançarà un statuscode 400 (BadRequest)
+     * @param errorMessage
+     * @param field
+     */
+    public RestException(String errorMessage, String field) {
+        this(Status.BAD_REQUEST, null, errorMessage, null, field);
     }
 
-    public RestException(String message, Throwable cause) {
-        super(message, cause);
-
+    public RestException(Status status, String errorMessage, String field) {
+        this(status, null, errorMessage, null, field);
     }
 
-    public RestException(String message) {
-        super(message);
-
+    public RestException(Status status, Integer errorCode, String errorMessage, Throwable cause, String field) {
+        super(errorMessage, cause, status);
+        info = new RestExceptionInfo(errorCode, errorMessage);
+        if (exportStackTrace) {
+            info.setStackTrace(ExceptionUtils.getStackTrace(this));
+        }
+        if (exportStackTraceCause && cause != null) {
+            info.setStackTrace(ExceptionUtils.getStackTrace(cause));
+        }
+        info.setField(field);
     }
 
     @Override
     public Response getResponse() {
-        RestExceptionInfo info = getRestExceptionInfo();
-        return Response.status(info.getCode()).entity(info).build();
-    }
-
-    
-    
-    public RestExceptionInfo getRestExceptionInfo() {
-
-        RestExceptionInfo info = new RestExceptionInfo();
-
-        info.setCode(super.getResponse().getStatus());
-        info.setErrorMessage(this.getMessage());
-
-        if (exportStackTrace) {
-            info.setStackTrace(ExceptionUtils.getStackTrace(this));
-        }
-
-        Throwable cause = this.getCause();
-
-        if (cause != null && exportCause) {
-            info.setCauseException(cause.getClass().getName());
-            if (exportStackTrace) {
-                info.setCauseStackTrace(ExceptionUtils.getStackTrace(cause));
-            }
-        }
-
-        return info;
-
+        return Response.status(super.getResponse().getStatus()).entity(info).build();
     }
 
 }

@@ -209,7 +209,7 @@ public class GenAppRestUtils {
             return t;
         } catch (Throwable e) {
             final String msg = "Error instanciant class " + field + ": " + e.getMessage();
-            throw new RestException(msg, Status.BAD_REQUEST);
+            throw new RestException(Status.BAD_REQUEST, msg);
         }
     }
 
