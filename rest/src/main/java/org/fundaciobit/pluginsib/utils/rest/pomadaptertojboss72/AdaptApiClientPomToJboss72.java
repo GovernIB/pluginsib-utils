@@ -43,7 +43,6 @@ public class AdaptApiClientPomToJboss72 {
 
         List<InfoApi> infoApis = getApisInfo(pom_api);
 
-
         for (InfoApi info : infoApis) {
 
             String api = info.getOutput();
@@ -148,13 +147,14 @@ public class AdaptApiClientPomToJboss72 {
             int a_start = pom_api.indexOf(artifactId, i);
             int a_end = pom_api.indexOf("</artifactId>", a_start);
 
-            System.out.println("ArtifactId: |" + pom_api.substring(a_start + artifactId.length(), a_end) + "|" );
+            System.out.println("ArtifactId: |" + pom_api.substring(a_start + artifactId.length(), a_end) + "|");
             info.setArtifactId(pom_api.substring(a_start + artifactId.length(), a_end).trim());
 
             int ad_start = pom_api.indexOf("<artifactDescription>", a_end);
             int ad_end = pom_api.indexOf("</artifactDescription>", ad_start);
 
-            System.out.println("ArtifactDescription: |" + pom_api.substring(ad_start + "<artifactDescription>".length(), ad_end) + "|\n");
+            System.out.println("ArtifactDescription: |"
+                    + pom_api.substring(ad_start + "<artifactDescription>".length(), ad_end) + "|\n");
             info.setArtifactDescription(pom_api.substring(ad_start + "<artifactDescription>".length(), ad_end).trim());
 
             apis.add(info);
@@ -176,9 +176,10 @@ public class AdaptApiClientPomToJboss72 {
 
             content = content.replace(replace[0], replaceWith);
         }
-        
-        content = content.replace("<name>" + info.getArtifactId() + "</name>", "<name>" + info.getArtifactDescription() + "</name>");
-        
+
+        content = content.replace("<name>" + info.getArtifactId() + "</name>",
+                "<name>" + info.getArtifactDescription() + "</name>");
+
         return content;
     }
 
@@ -225,7 +226,19 @@ public class AdaptApiClientPomToJboss72 {
         fos.close();
     }
 
-    public static String[][] REPLACES = {
+    public static String[][] REPLACES = { { "<project xmlns=\"http://maven.apache.org/POM/4.0.0\"",
+
+            "<!--                                                                     -->\n"
+                    + "<!--                                                                     -->\n"
+                    + "<!--             IMPORTANT: NO MODIFICAR AQUEST FITXER!!!!!!!            -->\n"
+                    + "<!--             ============================================            -->\n"
+                    + "<!--  Aquest fitxer s'ha generat emprant el plugin maven de OpenApiTools -->\n"
+                    + "<!--  org.openapitools::openapi-generator-maven-plugin i modificat per   -->\n" + "<!--  "
+                    + AdaptApiClientPomToJboss72.class.getName() + " -->\n"
+                    + "<!--  de PluginsIB-Utils-Rest. NO modificar-ho a ma !!!!!                -->\n"
+                    + "<!--                                                                     -->\n"
+                    + "<project xmlns=\"http://maven.apache.org/POM/4.0.0\"" },
+            // =====================================================
             { "</developers>", "</developers>\n" + "\n" + "\n" + "    <!-- NOU -->\n" + "    <repositories>\n"
             /*
                     + "        <repository>\n" + "            <id>jboss-releases</id>\n"
@@ -301,9 +314,13 @@ public class AdaptApiClientPomToJboss72 {
             { "<resteasy-version>4.7.6.Final</resteasy-version>",
                     "<!-- NOU <resteasy-version>4.7.6.Final</resteasy-version> -->\n" },
             { "<jackson-version>2.15.2</jackson-version>", "<!-- NOU <jackson-version>2.15.2</jackson-version>-->" },
-            { "<junit-version>4.13</junit-version>", "<!-- NOU <junit-version>4.13</junit-version>-->" },
+            { "<jackson-version>2.17.1</jackson-version>", "<!-- NOU <jackson-version>2.17.1</jackson-version>-->" },
+            { "<jackson-databind-version>2.17.1</jackson-databind-version>",
+                    "<!-- NOU <jackson-databind-version>2.17.1</jackson-databind-version>-->" },
+            { "            <artifactId>junit</artifactId>\n" + "            <junit-version>4.13</junit-version>",
+                    "            <artifactId>junit</artifactId>\n"
+                            + "            <!-- NOU <junit-version>4.13</junit-version>-->" },
             // =====================================================
-            { "<version>${junit-version}</version>", "<!-- NOU  <version>${junit-version}</version> -->" },
             { "<version>${jackson-version}</version>", "<!-- NOU <version>${jackson-version}</version> -->" },
             { "<version>${resteasy-version}</version>", "<!-- NOU <version>${resteasy-version}</version> -->" },
             { "<version>${jackson-databind-version}</version>", "<!-- NOU ${jackson-databind-version} -->" },
@@ -330,15 +347,13 @@ public class AdaptApiClientPomToJboss72 {
                     + "                            </sources>\n" + "                        </configuration>\n"
                     + "                    </execution>", "" },
             // =====================================================
-            { "    </build>\n" + "    <dependencies>", "    </build>\n" + "    <dependencies>\n" + "\n"
-            // + "        <!-- NOU -->\n"
-                    + "        <dependency>\n" + "            <groupId>commons-logging</groupId>\n"
-                    + "            <artifactId>commons-logging</artifactId>\n" + "            <version>1.2</version>\n"
-                    + "            <scope>test</scope>\n" + "        </dependency>\n" + "\n"
-                    // + "        <!-- NOU -->\n"
-                    + "        <dependency>\n" + "            <groupId>javax.mail</groupId>\n"
-                    + "            <artifactId>mail</artifactId>\n" + "            <version>1.4.3</version>\n"
-                    + "            <scope>test</scope>\n" + "        </dependency>" },
+            { "    </build>\n" + "    <dependencies>",
+                    "    </build>\n" + "    <dependencies>\n" + "\n" + "        <!-- NOU -->\n"
+                            + "        <dependency>\n" + "            <groupId>org.jboss.logging</groupId>\n"
+                            + "            <artifactId>commons-logging-jboss-logging</artifactId>\n"
+                            + "        </dependency>\n" + "        <!-- NOU -->\n" + "        <dependency>\n"
+                            + "            <groupId>com.sun.mail</groupId>\n"
+                            + "            <artifactId>javax.mail</artifactId>\n" + "        </dependency>" },
             // =====================================================
             { "        </plugins>", "           <!-- NOU -->\n" + "            <plugin>\n"
                     + "                <artifactId>maven-deploy-plugin</artifactId>\n"
@@ -416,6 +431,11 @@ public class AdaptApiClientPomToJboss72 {
                             + "                    <!-- NOU <parallel>methods</parallel> -->\n"
                             + "                    <!-- NOU <forkMode>pertest</forkMode> -->\n"
                             + "                </configuration>\n" + "            </plugin>" },
+            // =====================================================
+            { "                <artifactId>maven-surefire-plugin</artifactId>\n"
+                    + "                <version>2.22.2</version>",
+                    "                <artifactId>maven-surefire-plugin</artifactId>\n"
+                            + "                <!-- NOU <version>2.22.2</version> -->" },
             // =====================================================   
             { "            <plugin>\n" + "                <groupId>org.apache.maven.plugins</groupId>\n"
                     + "                <artifactId>maven-jar-plugin</artifactId>\n"
