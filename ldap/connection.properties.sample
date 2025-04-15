@@ -1,0 +1,33 @@
+#Ldap Props CAIB
+#Mon Feb 21 14:00:19 CET 2022
+
+test.username=uXXXXX
+test.password=the_password_for_uXXXXX
+
+ldap.users_context_dn=dc\=caib,dc\=es
+ldap.suffix_role_match_memberof=
+ldap.host_url=ldap\://ldap.caib.es\:389
+ldap.security_authentication=simple
+
+ldap.search_scope=subtree
+ldap.security_principal=[[USERNAME_LOGIN]]
+ldap.security_credentials=[[PASSWORD_LOGIN]]
+
+
+ldap.attribute.username=cn
+ldap.attribute.administration_id=nif
+ldap.attribute.name=givenName
+ldap.attribute.surname=sn
+ldap.attribute.surname1=sn1
+ldap.attribute.surname2=sn2
+ldap.attribute.mail=mail
+ldap.attribute.memberof=memberOf
+ldap.attribute.telephone=
+ldap.attribute.department=departmentNumber
+
+ldap.additional.attributes=
+
+ldap.prefix_role_match_memberof=
+
+# cn\=PFI_USER
+ldap.search_filter=memberOf\=cn=tothom,dc\=caib,dc\=es

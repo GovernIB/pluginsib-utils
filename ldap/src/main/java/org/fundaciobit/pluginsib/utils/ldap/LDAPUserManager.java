@@ -62,6 +62,7 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
         if (result == null) {
             return null;
         } else {
+            //System.out.println(result.getAttributes());
             return convertAttributesToLdapUser(result.getAttributes());
         }
     }
@@ -84,7 +85,7 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
         try {
             String usernameAttribute = ldapProperties.getProperty(attribute);
             String userFilter = usernameAttribute + "=" + value;
-            NamingEnumeration<SearchResult> answer = searchLDAP(userFilter);
+            NamingEnumeration<SearchResult> answer = searchLDAP(userFilter, null);
             if (answer.hasMore()) {
                 result = answer.next();
             }
@@ -105,7 +106,7 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
      * @throws Exception
      *           If error.
      */
-    private LDAPUser convertAttributesToLdapUser(Attributes attrib) throws Exception {
+    public LDAPUser convertAttributesToLdapUser(Attributes attrib) throws Exception {
 
         //Attributes attrib = ldapUser.getAttributes();
         //SearchResult ldapUser
@@ -236,19 +237,19 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
      * @throws Exception
      *           If error.
      */
-    private String searchResultToUserName(Attributes attrib) throws Exception {
+    public String searchResultToUserName(Attributes attrib) throws Exception {
 
         // SearchResult ldapUser
         String userNameAttribKey = ldapProperties.getProperty(LDAP_USERNAME_ATTRIBUTE);
         //Attributes attrib = ldapUser.getAttributes();
         Attribute userNameAttrib = attrib.get(userNameAttribKey);
         if (userNameAttrib == null) {
-            throw new Exception("Cannot convert 'SearchResult' into 'User' due attribute " + "[" + userNameAttribKey
+            throw new Exception("Cannot convert 'SearchResult' into 'username' due attribute " + "[" + userNameAttribKey
                     + "] is not in ldap user attributes: [" + attrib.toString() + "]", new Exception()); // ldapUser.toString()
         }
         String userName = (String) userNameAttrib.get();
         if (userName == null) {
-            throw new Exception("Cannot convert 'SearchResult' into 'User' due attribute " + "["
+            throw new Exception("Cannot convert 'SearchResult' into 'username' due attribute " + "["
                     + LDAP_USERNAME_ATTRIBUTE + "] has value null: [" + attrib.toString() + "]", new Exception()); // ldapUser.toString()
         }
         return userName;
@@ -276,7 +277,7 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
      */
     public List<String> getAllUserNames() throws Exception {
 
-        NamingEnumeration<SearchResult> enumeration = searchLDAP(null); // Null get all results.
+        NamingEnumeration<SearchResult> enumeration = searchLDAP(null, new String[] { ldapProperties.getProperty(LDAP_USERNAME_ATTRIBUTE) }); // Null get all results.
         List<String> list = new ArrayList<String>();
         while (enumeration.hasMore()) {
             SearchResult sr = enumeration.next();
@@ -334,7 +335,7 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
      */
     public LDAPUser[] getUserArray() throws Exception {
 
-        NamingEnumeration<SearchResult> enumeration = searchLDAP(null); // Null get all results.
+        NamingEnumeration<SearchResult> enumeration = searchLDAP(null, null); // Null get all results.
         List<LDAPUser> list = new ArrayList<LDAPUser>();
         while (enumeration.hasMore()) {
             SearchResult sr = enumeration.next();
@@ -342,7 +343,7 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
             list.add(usr);
         }
         Collections.sort(list);
-        return list.toArray(new LDAPUser[0]);
+        return list.toArray(new LDAPUser[list.size()]);
     }
 
     // ====================================================================
@@ -414,8 +415,22 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
      * @param customFilter Filter to apply. If null then select all.
      * @return Results of the Search
      * @throws NamingException if an error ocurrs
+     * @deprecated Use {@link #searchLDAP(String, String[])} instead.
      */
+    @Deprecated
     public NamingEnumeration<SearchResult> searchLDAP(String customFilter) throws NamingException {
+        return searchLDAP(customFilter, null);
+    }
+    
+    
+    /**
+     * Search items.
+     * @param customFilter Filter to apply. If null then select all.
+     * @param attributes Attributes per retornar. Si es null, llavors les retorna tots. Si és buit, llavors no retorna cap. 
+     * @return Results of the Search
+     * @throws NamingException if an error ocurrs
+     */
+    public NamingEnumeration<SearchResult> searchLDAP(String customFilter, String[] attributes) throws NamingException {
         InitialDirContext ctx = getInitialDirContext();
         String fullFilter;
         String searchFilter = ldapProperties.getProperty(LDAP_SEARCHFILTER);
@@ -449,7 +464,12 @@ public class LDAPUserManager implements LDAPConstants, Serializable {
                 sc.setSearchScope(SearchControls.SUBTREE_SCOPE);
             }
         }
-        //
+        
+        if (attributes != null) {
+            sc.setReturningAttributes(attributes);
+        }
+        
+
         String additionalAttributesProperty = ldapProperties.getProperty(LDAP_ADDITIONAL_ATTRIBUTES);
         if (additionalAttributesProperty != null && !additionalAttributesProperty.isEmpty()) {
             String[] additionalAttributes = additionalAttributesProperty.split(",");
