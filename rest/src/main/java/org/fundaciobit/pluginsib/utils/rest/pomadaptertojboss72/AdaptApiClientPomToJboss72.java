@@ -8,7 +8,10 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * This class is used to adapt the pom.xml of the api-client project to JBoss 7.2
+ * This class is used to adapt the pom.xml of the api-client project to JBoss 7.2 or 7.4
+ * 
+ * Usar des de línia de comandes:  -Djboss=7.2 o -Djboss=7.4
+ * 
  */
 public class AdaptApiClientPomToJboss72 {
 
@@ -351,9 +354,13 @@ public class AdaptApiClientPomToJboss72 {
                     "    </build>\n" + "    <dependencies>\n" + "\n" + "        <!-- NOU -->\n"
                             + "        <dependency>\n" + "            <groupId>org.jboss.logging</groupId>\n"
                             + "            <artifactId>commons-logging-jboss-logging</artifactId>\n"
-                            + "        </dependency>\n" + "        <!-- NOU -->\n" + "        <dependency>\n"
+                            + "        </dependency>\n"
+                            /*
+                            + "        <!-- NOU -->\n" + "        <dependency>\n"
                             + "            <groupId>com.sun.mail</groupId>\n"
-                            + "            <artifactId>javax.mail</artifactId>\n" + "        </dependency>" },
+                            + "            <artifactId>javax.mail</artifactId>\n" + "        </dependency>" */
+                            },
+                            
             // =====================================================
             { "        </plugins>", "           <!-- NOU -->\n" + "            <plugin>\n"
                     + "                <artifactId>maven-deploy-plugin</artifactId>\n"
@@ -392,9 +399,9 @@ public class AdaptApiClientPomToJboss72 {
                             + "        <developerConnection>scm:git:git@github.com:openapitools/openapi-generator.git</developerConnection>\n"
                             + "        <url>https://github.com/openapitools/openapi-generator</url>\n" + "    </scm>\n"
                             + "    -->\n" + "    \n" + "    <!-- NOU -->\n" + "    <parent>\n"
-                            + "        <artifactId>caib-artifacts-github-governib-distribution-with-jdk11-jboss72</artifactId>\n"
+                            + "        <artifactId>caib-artifacts-jdk11-jboss72or74-with-github-governib-distribution</artifactId>\n"
                             + "        <groupId>es.caib.maven</groupId>\n"
-                            + "        <version>1.0.0-SNAPSHOT</version>\n" + "        <relativePath></relativePath>\n"
+                            + "        <version>1.0.1-SNAPSHOT</version>\n" + "        <relativePath></relativePath>\n"
                             + "    </parent>" },
             // =====================================================
             { "            <plugin>\n" + "                <groupId>org.apache.maven.plugins</groupId>\n"
@@ -489,7 +496,64 @@ public class AdaptApiClientPomToJboss72 {
 
             { "        <dependency>\n" + "            <groupId>com.google.code.findbugs</groupId>\n"
                     + "            <artifactId>jsr305</artifactId>\n" + "            <version>3.0.2</version>\n"
-                    + "        </dependency>", null }
+                    + "        </dependency>", null },
+            
+            // =====================================================     
+
+            { "    </properties>\n", "    </properties>\n"
+                    + "    <profiles>\n"
+                    + "        <!-- Profile jboss72: actiu per defecte -->\n"
+                    + "        <profile>\n"
+                    + "            <id>jboss72_def</id>\n"
+                    + "            <activation>\n"
+                    + "                <property>\n"
+                    + "                    <name>!jboss</name>\n"
+                    + "                </property>\n"
+                    + "            </activation>\n"
+                    + "            <dependencies>\n"
+                    + "                <!-- Dependències específiques per a JBoss 7.2 -->\n"
+                    + "                <dependency>\n"
+                    + "                    <groupId>com.sun.mail</groupId>\n"
+                    + "                    <artifactId>javax.mail</artifactId>\n"
+                    + "                </dependency>\n"
+                    + "            </dependencies>\n"
+                    + "        </profile>\n"
+                    + "        <!-- Profile jboss72: actiu per propietat -->\n"
+                    + "        <profile>\n"
+                    + "            <id>jboss72_explicit</id>\n"
+                    + "            <activation>\n"
+                    + "                <property>\n"
+                    + "                    <name>jboss</name>\n"
+                    + "                    <value>7.2</value>\n"
+                    + "                </property>\n"
+                    + "            </activation>\n"
+                    + "            <dependencies>\n"
+                    + "                <!-- Dependències específiques per a JBoss 7.2 -->\n"
+                    + "                <dependency>\n"
+                    + "                    <groupId>com.sun.mail</groupId>\n"
+                    + "                    <artifactId>javax.mail</artifactId>\n"
+                    + "                </dependency>\n"
+                    + "            </dependencies>\n"
+                    + "        </profile>\n"
+                    + "        <!-- Profile jboss74: actiu per propietat -->\n"
+                    + "        <profile>\n"
+                    + "            <id>jboss74_explicit</id>\n"
+                    + "            <activation>\n"
+                    + "                <property>\n"
+                    + "                    <name>jboss</name>\n"
+                    + "                    <value>7.4</value>\n"
+                    + "                </property>\n"
+                    + "            </activation>\n"
+                    + "            <dependencies>\n"
+                    + "                <!-- Dependències específiques per a JBoss 7.4 -->\n"
+                    + "                <dependency>\n"
+                    + "                    <groupId>com.google.code.findbugs</groupId>\n"
+                    + "                    <artifactId>jsr305</artifactId>\n"
+                    + "                    <version>1.3.9</version>\n"
+                    + "                </dependency>\n"
+                    + "            </dependencies>\n"
+                    + "        </profile>\n"
+                    + "    </profiles>" }
 
     };
 
