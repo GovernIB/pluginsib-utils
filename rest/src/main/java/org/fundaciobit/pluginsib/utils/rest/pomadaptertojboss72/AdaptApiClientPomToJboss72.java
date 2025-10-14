@@ -549,7 +549,7 @@ public class AdaptApiClientPomToJboss72 {
                     + "                <dependency>\n"
                     + "                    <groupId>com.google.code.findbugs</groupId>\n"
                     + "                    <artifactId>jsr305</artifactId>\n"
-                    + "                    <version>1.3.9</version>\n"
+                    + "                    <version>3.0.2</version>\n"
                     + "                </dependency>\n"
                     + "            </dependencies>\n"
                     + "        </profile>\n"
