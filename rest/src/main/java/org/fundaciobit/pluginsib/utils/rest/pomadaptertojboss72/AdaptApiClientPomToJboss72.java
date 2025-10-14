@@ -1,13 +1,19 @@
 package org.fundaciobit.pluginsib.utils.rest.pomadaptertojboss72;
 
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 /**
+ * 
+ * @author anadal
+ * 14 oct 2025 11:55:19
+ *
  * This class is used to adapt the pom.xml of the api-client project to JBoss 7.2 or 7.4
  * 
  * Usar des de línia de comandes:  -Djboss=7.2 o -Djboss=7.4
@@ -71,30 +77,17 @@ public class AdaptApiClientPomToJboss72 {
                 String contentPom = readFile(pom);
                 String newContentPom = doReplaces(contentPom, info);
 
-                {
-                    FileOutputStream fos = new FileOutputStream(pom);
-                    fos.write(newContentPom.getBytes());
-                    fos.flush();
-                    fos.close();
-                }
 
-                {
-                    FileOutputStream fos = new FileOutputStream(new File(f, "pom_backup.xml"));
-                    fos.write(contentPom.getBytes());
-                    fos.flush();
-                    fos.close();
-                }
+                writeFile(pom, newContentPom);                   
+                writeFile(new File(f, "pom_backup.xml"), contentPom);
+
 
                 // Canviar ignore files
                 ignorefilesContent = ignorefilesContent + "\n" + "#_POM.XML_JA_PROCESSAT" + "\n" + "pom.xml" + "\n"
                         + ".gitignore" + "\n";
 
-                {
-                    FileOutputStream fos = new FileOutputStream(ignorefiles);
-                    fos.write(ignorefilesContent.getBytes());
-                    fos.flush();
-                    fos.close();
-                }
+                
+                writeFile(ignorefiles, ignorefilesContent);
 
                 new File(f, ".gitignore").delete();
 
@@ -211,8 +204,8 @@ public class AdaptApiClientPomToJboss72 {
         return trobades;
     }
 
-    protected static String readFile(File file) throws FileNotFoundException {
-        Scanner sc = new Scanner(file);
+    protected static String readFile(File file) throws Exception {
+        Scanner sc = new Scanner(file, StandardCharsets.UTF_8);
         // we just need to use \\Z as delimiter
         sc.useDelimiter("\\Z");
         String content = sc.next();
@@ -224,8 +217,12 @@ public class AdaptApiClientPomToJboss72 {
     /** Write a text to a file */
     protected static void writeFile(File file, String content) throws Exception {
         FileOutputStream fos = new FileOutputStream(file);
-        fos.write(content.getBytes());
-        fos.flush();
+        OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+        BufferedWriter writer = new BufferedWriter(osw);
+        writer.append(content);
+        writer.flush();
+        writer.close();
+        osw.close();
         fos.close();
     }
 
@@ -355,12 +352,12 @@ public class AdaptApiClientPomToJboss72 {
                             + "        <dependency>\n" + "            <groupId>org.jboss.logging</groupId>\n"
                             + "            <artifactId>commons-logging-jboss-logging</artifactId>\n"
                             + "        </dependency>\n"
-                            /*
-                            + "        <!-- NOU -->\n" + "        <dependency>\n"
-                            + "            <groupId>com.sun.mail</groupId>\n"
-                            + "            <artifactId>javax.mail</artifactId>\n" + "        </dependency>" */
-                            },
-                            
+            /*
+            + "        <!-- NOU -->\n" + "        <dependency>\n"
+            + "            <groupId>com.sun.mail</groupId>\n"
+            + "            <artifactId>javax.mail</artifactId>\n" + "        </dependency>" */
+            },
+
             // =====================================================
             { "        </plugins>", "           <!-- NOU -->\n" + "            <plugin>\n"
                     + "                <artifactId>maven-deploy-plugin</artifactId>\n"
@@ -497,63 +494,38 @@ public class AdaptApiClientPomToJboss72 {
             { "<dependency>\n" + "            <groupId>com.google.code.findbugs</groupId>\n"
                     + "            <artifactId>jsr305</artifactId>\n" + "            <version>3.0.2</version>\n"
                     + "        </dependency>", null },
-            
+
             // =====================================================     
 
-            { "    </properties>\n", "    </properties>\n"
-                    + "    <profiles>\n"
-                    + "        <!-- Profile jboss72: actiu per defecte -->\n"
-                    + "        <profile>\n"
-                    + "            <id>jboss72_def</id>\n"
-                    + "            <activation>\n"
-                    + "                <property>\n"
-                    + "                    <name>!jboss</name>\n"
-                    + "                </property>\n"
-                    + "            </activation>\n"
-                    + "            <dependencies>\n"
+            { "    </properties>\n", "    </properties>\n" + "    <profiles>\n"
+                    + "        <!-- Profile jboss72: actiu per defecte -->\n" + "        <profile>\n"
+                    + "            <id>jboss72_def</id>\n" + "            <activation>\n"
+                    + "                <property>\n" + "                    <name>!jboss</name>\n"
+                    + "                </property>\n" + "            </activation>\n" + "            <dependencies>\n"
                     + "                <!-- Dependències específiques per a JBoss 7.2 -->\n"
-                    + "                <dependency>\n"
-                    + "                    <groupId>com.sun.mail</groupId>\n"
-                    + "                    <artifactId>javax.mail</artifactId>\n"
-                    + "                </dependency>\n"
-                    + "            </dependencies>\n"
-                    + "        </profile>\n"
-                    + "        <!-- Profile jboss72: actiu per propietat -->\n"
-                    + "        <profile>\n"
-                    + "            <id>jboss72_explicit</id>\n"
-                    + "            <activation>\n"
-                    + "                <property>\n"
-                    + "                    <name>jboss</name>\n"
-                    + "                    <value>7.2</value>\n"
-                    + "                </property>\n"
-                    + "            </activation>\n"
-                    + "            <dependencies>\n"
+                    + "                <dependency>\n" + "                    <groupId>com.sun.mail</groupId>\n"
+                    + "                    <artifactId>javax.mail</artifactId>\n" + "                </dependency>\n"
+                    + "            </dependencies>\n" + "        </profile>\n"
+                    + "        <!-- Profile jboss72: actiu per propietat -->\n" + "        <profile>\n"
+                    + "            <id>jboss72_explicit</id>\n" + "            <activation>\n"
+                    + "                <property>\n" + "                    <name>jboss</name>\n"
+                    + "                    <value>7.2</value>\n" + "                </property>\n"
+                    + "            </activation>\n" + "            <dependencies>\n"
                     + "                <!-- Dependències específiques per a JBoss 7.2 -->\n"
-                    + "                <dependency>\n"
-                    + "                    <groupId>com.sun.mail</groupId>\n"
-                    + "                    <artifactId>javax.mail</artifactId>\n"
-                    + "                </dependency>\n"
-                    + "            </dependencies>\n"
-                    + "        </profile>\n"
-                    + "        <!-- Profile jboss74: actiu per propietat -->\n"
-                    + "        <profile>\n"
-                    + "            <id>jboss74_explicit</id>\n"
-                    + "            <activation>\n"
-                    + "                <property>\n"
-                    + "                    <name>jboss</name>\n"
-                    + "                    <value>7.4</value>\n"
-                    + "                </property>\n"
-                    + "            </activation>\n"
-                    + "            <dependencies>\n"
+                    + "                <dependency>\n" + "                    <groupId>com.sun.mail</groupId>\n"
+                    + "                    <artifactId>javax.mail</artifactId>\n" + "                </dependency>\n"
+                    + "            </dependencies>\n" + "        </profile>\n"
+                    + "        <!-- Profile jboss74: actiu per propietat -->\n" + "        <profile>\n"
+                    + "            <id>jboss74_explicit</id>\n" + "            <activation>\n"
+                    + "                <property>\n" + "                    <name>jboss</name>\n"
+                    + "                    <value>7.4</value>\n" + "                </property>\n"
+                    + "            </activation>\n" + "            <dependencies>\n"
                     + "                <!-- Dependències específiques per a JBoss 7.4 -->\n"
                     + "                <dependency>\n"
                     + "                    <groupId>com.google.code.findbugs</groupId>\n"
                     + "                    <artifactId>jsr305</artifactId>\n"
-                    + "                    <version>3.0.2</version>\n"
-                    + "                </dependency>\n"
-                    + "            </dependencies>\n"
-                    + "        </profile>\n"
-                    + "    </profiles>\n" }
+                    + "                    <version>3.0.2</version>\n" + "                </dependency>\n"
+                    + "            </dependencies>\n" + "        </profile>\n" + "    </profiles>\n" }
 
     };
 
