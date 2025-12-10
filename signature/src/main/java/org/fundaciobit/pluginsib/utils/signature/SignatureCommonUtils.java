@@ -192,7 +192,12 @@ public class SignatureCommonUtils implements SignatureConstants {
         }
         NodeList signsList = eSignature.getElementsByTagNameNS("http://www.w3.org/2000/09/xmldsig#", "Signature");
         if (signsList.getLength() == 0) {
-            throw new Exception("XS003"); // TODO
+            String msg = "No s'ha trobat cap node de firma dins de l'XML proporcionat: tag 'Signature' "
+                    + "amb ds 'http://www.w3.org/2000/09/xmldsig#'. No es pot determinar el mode de signatura.";
+            log.error(msg);
+            log.error("XML sense node de firma:\n" + new String(signature));
+            
+            throw new Exception("XS003 " + msg); // TODO
         }
         Node signatureNode = signsList.item(0);
 
