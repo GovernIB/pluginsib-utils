@@ -73,4 +73,8 @@ public class RestException extends WebApplicationException {
         return Response.status(super.getResponse().getStatus()).entity(info).build();
     }
 
+    public RestExceptionInfo getInfo() {
+        return info;
+    }
+
 }
