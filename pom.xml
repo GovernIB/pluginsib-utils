@@ -47,6 +47,7 @@
         <module>ssl</module>
         <module>ws</module>
         <module>signature</module>
+        <module>ejb</module>
     </modules>
     <repositories>
         <repository>
