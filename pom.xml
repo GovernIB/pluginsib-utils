@@ -49,21 +49,6 @@
         <module>signature</module>
         <module>ejb</module>
     </modules>
-    <repositories>
-        <repository>
-            <id>github-governib-maven-repos</id>
-            <name>GitHub GovernIB Maven Repository</name>
-            <url>https://governib.github.io/maven/maven/</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-        </repository>
-    </repositories>
     <dependencyManagement>
         <dependencies>
             <dependency>

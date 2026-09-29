@@ -10,6 +10,7 @@
         <groupId>org.fundaciobit.pluginsib.utils</groupId>
         <version>3.0.0-SNAPSHOT</version>
         <artifactId>pluginsib-utils</artifactId>
+        <relativePath></relativePath>
     </parent>
     <dependencies>
         <dependency>
@@ -17,23 +18,7 @@
             <artifactId>classgraph</artifactId>
             <version>4.8.158</version>
         </dependency>
-        <!--
-        <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-            <version>0.10.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava-base</artifactId>
-            <version>r03</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava-collections</artifactId>
-            <version>r03</version>
-        </dependency>
-        -->
+
         <dependency>
             <groupId>org.fundaciobit.pluginsib.core.v3</groupId>
             <artifactId>pluginsib-core</artifactId>

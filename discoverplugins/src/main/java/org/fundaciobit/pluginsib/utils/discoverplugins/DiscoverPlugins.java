@@ -16,18 +16,21 @@ public class DiscoverPlugins {
 
     protected static final Logger log = Logger.getLogger(DiscoverPlugins.class);
 
+    @Deprecated
     public static <T extends Object> Set<Class<? extends T>> getSubTypesOfInterface(Class<T> interficie)
             throws Exception {
 
         return DiscoverPluginsIB.getSubTypesOfInterface(interficie);
     }
 
+    @Deprecated
     public static Set<Class<?>> getTypesAnnotatedWith(Class<? extends Annotation> annotation,
             ClassLoader... classLoaders) throws Exception {
 
         return DiscoverPluginsIB.getTypesAnnotatedWith(annotation);
     }
 
+    @Deprecated
     public static <T extends IPluginIB> Set<Class<? extends T>> getPluginsByInterface(Class<T> interficie)
             throws Exception {
 
