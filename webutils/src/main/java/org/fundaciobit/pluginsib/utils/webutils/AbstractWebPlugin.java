@@ -607,6 +607,22 @@ public abstract class AbstractWebPlugin<K, V> extends AbstractPluginPropertiesTr
      * @param errorMsg
      * @param th
      */
+    // TODO Eliminar quan es faci una nova versió de PluginsIB-Utils-WebUtils
     public abstract void finishWithError(HttpServletResponse response, V value, String errorMsg, Throwable th);
+
+    /**
+     * 
+     * @param response
+     * @param value
+     * @param errorMsg
+     * @param th
+     * @param errorCode
+     */
+    // SignatureWeb: Retornar CODI d'Error en estat de firma #41
+    // TODO convertir en abstract quan es faci una nova versió de PluginsIB-Utils-WebUtils
+    public void finishWithError(HttpServletResponse response, V value, String errorMsg, Throwable th,
+            String errorCode) {
+        this.finishWithError(response, value, errorMsg, th);
+    }
 
 }
